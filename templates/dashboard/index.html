@@ -1,0 +1,76 @@
+{% load static%}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Solar CRM Dashboard</title>
+    <link rel="stylesheet" href="{% static 'css/dashboard.css' %}">
+    <script defer src="{% static 'main.js' %}"></script>
+</head>
+<body>
+    <div class="sidebar">
+        <div class="sidebar-logo">
+            <img src="{% static 'logo.png' %}" alt="Solar CRM Logo">
+            <span>SOLAR CRM</span>
+        </div>
+        <ul class="sidebar-menu">
+            <li><a href="#">Dashboard</a></li>
+            <li><a href="{% url 'leads:create_lead' %}">Create New Lead</a></li>
+            <li><a href="#">Activity Log</a></li>
+            <li><a href="#">Sales Funnel</a></li>
+            <li><a href="#">Analytics</a></li>
+            <li><a href="#">CRM Settings</a></li>
+            <li><a href="#">Sales Pipeline</a></li>
+            <li><a href="#">Manage Team & Payments</a></li>
+        </ul>
+        <div class="sidebar-footer">
+            <a href="#">Logout</a>
+        </div>
+    </div>
+    <div class="main-content">
+        <header class="header">
+            <h1>Summary of your business for the last 30 days</h1>
+        </header>
+        <div class="dashboard-cards">
+            <div class="card">
+                <div class="card-title">New Leads</div>
+                <div class="card-value">1</div>
+                <div class="card-percentage">--%</div>
+            </div>
+            <div class="card">
+                <div class="card-title">Site Surveys</div>
+                <div class="card-value">0</div>
+                <div class="card-percentage">--%</div>
+            </div>
+            <div class="card">
+                <div class="card-title">Proposals</div>
+                <div class="card-value">0</div>
+                <div class="card-percentage">--%</div>
+            </div>
+            <div class="card">
+                <div class="card-title">Orders</div>
+                <div class="card-value">0</div>
+                <div class="card-percentage">--%</div>
+            </div>
+        </div>
+        <div class="lead-stages">
+            <div class="stage">
+                <h2>Fresh</h2>
+                <div class="lead">
+                    <p>CFAO Motors</p>
+                    <p>CFAO Ngong Road</p>
+                    <p>cfa0@gmail.com</p>
+                    <p>220 kW</p>
+                </div>
+            </div>
+            <div class="stage">
+                <h2>Site Survey</h2>
+            </div>
+            <div class="stage">
+                <h2>Engineering Design</h2>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

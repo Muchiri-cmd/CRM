@@ -1,0 +1,130 @@
+<!-- In leads_form.html -->
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Leads Form</title>
+  <link rel="stylesheet" href="{% static 'css/create_new_lead.css' %}">
+</head>
+<body>
+
+<div class="container">
+  <h2 style="font-size: 24px; font-weight: bold; margin-bottom: 20px;">New Lead</h2>
+  <form id="leadForm" method="POST" action="{% url 'leads:create_lead' %}">
+    {% csrf_token %}
+
+    <!-- Name -->
+    <div class="form-group">
+      <label for="name">Name</label>
+      <input id="name" name="name" type="text" placeholder="John Doe" required>
+    </div>
+
+    <!-- Company -->
+    <div class="form-group">
+      <label for="company">Company</label>
+      <input id="company" name="company" type="text" placeholder="ABCD Inc." required>
+    </div>
+
+    <!-- Email -->
+    <div class="form-group">
+      <label for="email">Email</label>
+      <input id="email" name="email" type="email" placeholder="john.doe@example.com" required>
+    </div>
+
+    <!-- Phone -->
+    <div class="form-group">
+      <label for="phone">Phone</label>
+      <input id="phone" name="phone" type="tel" placeholder="+1234567890" required>
+    </div>
+
+    <!-- Address -->
+    <div class="form-group">
+      <label for="address">Address</label>
+      <textarea id="address" name="address" placeholder="123 Main St, City, Country" rows="4" required></textarea>
+    </div>
+
+    <!-- Project Size -->
+    <div class="form-group">
+      <label for="projectSize">Project Size (kW)</label>
+      <input id="projectSize" name="project_size" type="number" placeholder="1000" required>
+    </div>
+
+    <!-- Estimated Project Value -->
+    <div class="form-group">
+      <label for="estimatedValue">Estimated Project Value</label>
+      <input id="estimatedValue" name="estimated_project_value" type="number" step="0.01" placeholder="10000.00" required>
+    </div>
+
+    <div class="form-group">
+        <label for="source">Source</label>
+        <select id="source" name="source" required>
+          <option value="Online">Online</option>
+          <option value="Referral">Referral</option>
+          <option value="Cold Call">Cold Call</option>
+          <option value="Networking Event">Networking Event</option>
+          <option value="Other">Other</option>
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label for="owner">Owner</label>
+        <select id="owner" name="owner" required>
+          {% for user in users %}
+            <option value="{{ user.username }}">{{ user.username }}</option>
+          {% endfor %}
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label for="status">Status</label>
+        <select id="status" name="status" required>
+          <option value="Fresh">Fresh</option>
+          <option value="Site Survey">Site Survey</option>
+          <option value="Engineering Design">Engineering Design</option>
+          <option value="Proposal">Proposal</option>
+          <option value="Commercials Finalized">Commercials Finalized</option>
+          <option value="PO Received">PO Received</option>
+          <option value="Cold">Cold</option>
+        </select>
+    </div>
+  
+
+    <!-- Next Action -->
+    <div class="form-group">
+      <label for="nextAction">Next Action</label>
+      <select id="nextAction" name="next_action" required>
+        <option value="Site Survey">Site Survey</option>
+        <option value="Engineering Design">Engineering Design</option>
+        <option value="Proposal">Proposal</option>
+        <option value="Meeting">Meeting</option>
+        <option value="Follow-up">Follow-up</option>
+      </select>
+    </div>
+
+    <!-- Next Action Scheduled On -->
+    <div class="form-group">
+      <label for="scheduledOn">Next Action Scheduled On</label>
+      <input id="scheduledOn" name="next_action_scheduled_on" type="date" required>
+    </div>
+
+    <!-- Next Action Owner -->
+    <div class="form-group">
+      <label for="next_owner">Next Action Owner</label>
+      <select id="next_owner" name="next_action_owner" required>
+        {% for user in users %}
+            <option value="{{ user.username }}">{{ user.username }}</option>
+        {% endfor %}
+      </select>
+    </div>
+
+    <!-- Submit Button -->
+    <div class="form-group">
+      <button type="submit">Submit</button>
+    </div>
+  </form>
+</div>
+
+</body>
+</html>
