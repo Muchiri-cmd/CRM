@@ -6,12 +6,37 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}SolarCRM{% endblock %}</title>
-    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    {% block stylesheets %}{% endblock %}
+    <link rel="stylesheet" href="{% static 'css/base.css' %}">    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 <body>
+    <span class="account"><span class="fas fa-user">
+        <a href=""></a>
+    </span></span>
+    <div class="sidebar">
+        <div class="sidebar-logo">
+            <img src="{% static 'logo.png' %}" alt="Solar CRM Logo">
+            <span>SOLAR CRM</span>
+         
+        </div>
+        <ul class="sidebar-menu">
+            <li><a href="{% url 'dashboard:index' %}">Dashboard</a></li>
+            <li><a href="{% url 'leads:create_lead' %}">Create New Lead</a></li>
+            <li><a href="{% url 'Activity:activity_view' %}">Activity Log</a></li>
+            <li><a href="{% url 'Sales:sales_funnel' %}">Sales Funnel</a></li>
+            <li><a href="{% url 'Sales:sales_analytics' %}">Analytics</a></li>
+            <li><a href="{% url 'Sales:sales_pipeline' %}">Sales Pipeline</a></li>
+        </ul>
+        <div class="sidebar-footer">
+            <a href="{% url 'Users:logout' %}">Logout</a>
+        </div>
+    </div>
+   
+   
     {% block content %}
-    <!-- Content will be injected here -->
+
     {% endblock %}
-    <script src="{% static 'js/main.js' %}"></script>
+
 </body>
 </html>

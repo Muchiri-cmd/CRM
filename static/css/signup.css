@@ -1,0 +1,106 @@
+body {
+    background-color: #f5f7fa;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    font-size: 24px;
+
+}
+input{
+    font-size:1em;
+}
+.container {
+    max-width: 800px;
+    height:600px;
+    width: 100%;
+    padding: 20px;
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+.card {
+    width: 100%;
+}
+.card-header {
+    
+    padding: 10px;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+    text-align: center;
+}
+.card-body {
+    padding: 20px;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+.form-label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+.form-control {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+
+.input-group {
+    display: flex;
+    align-items: center;
+}
+
+.input-group .form-control {
+    flex: 1;
+}
+
+.input-group .btn {
+    margin-left: 5px;
+}
+
+.btn {
+    background-color: #007bff;
+    color: #ffffff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1em;
+}
+
+.btn:hover {
+    background-color: #0056b3;
+}
+
+.d-grid {
+    display: grid;
+}
+
+.invalid-feedback {
+    color: #dc3545;
+    display: none;
+}
+
+.text-success {
+    color: #28a745;
+}
+
+.submit-btn {
+    background-color: #007bff;
+    color: #ffffff;
+    padding: 10px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    width: 100%;
+}
+.submit-btn:hover {
+    background-color: #0056b3;
+}

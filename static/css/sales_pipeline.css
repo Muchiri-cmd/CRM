@@ -1,0 +1,77 @@
+.container.pipeline {
+    margin: 6em auto;
+    background: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width:85%;
+    margin-right:50px;
+}
+h1 {
+    text-align: center;
+    color: #333;
+}
+.search-container {
+    text-align: right;
+    margin-bottom: 20px;
+}
+#search {
+    padding: 10px;
+    width: 200px;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+}
+.sales-pipeline-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+
+.sales-pipeline-table thead {
+    background: grey;
+    color: #fff;
+}
+
+.sales-pipeline-table th, .sales-pipeline-table td {
+    padding: 12px 15px;
+    text-align: left;
+    border-bottom: 2px solid grey;
+}
+
+.sales-pipeline-table tbody tr:nth-child(even) {
+    background: #f9f9f9;
+}
+
+.sales-pipeline-table tbody tr:hover {
+    background: #f1f1f1;
+}
+
+.status {
+    padding: 5px 10px;
+    border-radius: 4px;
+    font-weight: bold;
+}
+
+.status.fresh {
+    background: #28a745;
+    color: #fff;
+}
+
+.pagination {
+    text-align: center;
+}
+
+.pagination .prev-btn, .pagination .next-btn {
+    padding: 10px 20px;
+    border: none;
+    background: #007bff;
+    color: #fff;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.pagination .page-number {
+    margin: 0 10px;
+    font-weight: bold;
+    color: #007bff;
+}

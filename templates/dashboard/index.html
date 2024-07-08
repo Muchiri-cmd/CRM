@@ -1,76 +1,182 @@
+{% extends 'base.html'%}
 {% load static%}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Solar CRM Dashboard</title>
-    <link rel="stylesheet" href="{% static 'css/dashboard.css' %}">
-    <script defer src="{% static 'main.js' %}"></script>
-</head>
-<body>
-    <div class="sidebar">
-        <div class="sidebar-logo">
-            <img src="{% static 'logo.png' %}" alt="Solar CRM Logo">
-            <span>SOLAR CRM</span>
-        </div>
-        <ul class="sidebar-menu">
-            <li><a href="#">Dashboard</a></li>
-            <li><a href="{% url 'leads:create_lead' %}">Create New Lead</a></li>
-            <li><a href="#">Activity Log</a></li>
-            <li><a href="#">Sales Funnel</a></li>
-            <li><a href="#">Analytics</a></li>
-            <li><a href="#">CRM Settings</a></li>
-            <li><a href="#">Sales Pipeline</a></li>
-            <li><a href="#">Manage Team & Payments</a></li>
-        </ul>
-        <div class="sidebar-footer">
-            <a href="#">Logout</a>
-        </div>
-    </div>
-    <div class="main-content">
+
+{% block stylesheets %}
+  <link rel="stylesheet" href="{% static 'css/dashboard.css' %}">
+  <link rel="stylesheet" href="{% static 'css/sales_pipeline.css' %}">
+{% endblock %}
+
+{% block content %}
+    <div class="main-content dashboard">
         <header class="header">
             <h1>Summary of your business for the last 30 days</h1>
         </header>
         <div class="dashboard-cards">
             <div class="card">
                 <div class="card-title">New Leads</div>
-                <div class="card-value">1</div>
+                <div class="card-value">{{new_leads}}</div>
                 <div class="card-percentage">--%</div>
             </div>
             <div class="card">
                 <div class="card-title">Site Surveys</div>
-                <div class="card-value">0</div>
+                <div class="card-value">{{site_surveys_count}}</div>
                 <div class="card-percentage">--%</div>
             </div>
             <div class="card">
                 <div class="card-title">Proposals</div>
-                <div class="card-value">0</div>
+                <div class="card-value">{{proposals_count}}</div>
                 <div class="card-percentage">--%</div>
             </div>
             <div class="card">
                 <div class="card-title">Orders</div>
-                <div class="card-value">0</div>
+                <div class="card-value">-</div>
                 <div class="card-percentage">--%</div>
             </div>
         </div>
         <div class="lead-stages">
             <div class="stage">
                 <h2>Fresh</h2>
-                <div class="lead">
-                    <p>CFAO Motors</p>
-                    <p>CFAO Ngong Road</p>
-                    <p>cfa0@gmail.com</p>
-                    <p>220 kW</p>
-                </div>
+                {% for lead in fresh_leads %}
+                    <div class="lead">
+                        <p>{{lead.name}}</p>
+                        <p>{{lead.company}}</p>
+                        <p>{{lead.email}}</p>
+                        <p>{{lead.project_size}}</p>
+                    </div>
+                {% endfor %}
             </div>
             <div class="stage">
                 <h2>Site Survey</h2>
+                {% for survey in site_surveys %}
+                    <div class="lead">
+                        <p>{{survey.name}}</p>
+                        <p>{{survey.company}}</p>
+                        <p>{{survey.email}}</p>
+                        <p>{{survey.project_size}}</p>
+                    </div>                        
+                {% endfor %}
             </div>
             <div class="stage">
                 <h2>Engineering Design</h2>
+                {% for design in engineering_design %}
+                    <div class="lead">
+                        <p>{{design.name}}</p>
+                        <p>{{design.company}}</p>
+                        <p>{{design.email}}</p>
+                        <p>{{design.project_size}}</p>
+                    </div>
+                {% endfor %}
+            </div>
+            <div class="stage">
+                <h2>Proposal Created</h2>
+                {% for proposal in proposals %}
+                    <div class="lead">
+                        <p>{{proposal.name}}</p>
+                        <p>{{proposal.company}}</p>
+                        <p>{{proposal.email}}</p>
+                        <p>{{proposal.project_size}}</p>
+                    </div>
+                {% endfor %}
+            </div>
+            <div class="stage">
+                <h2>PO received</h2>
+                {% for proposal in po_received %}
+                <div class="lead">
+                    <p>{{po.name}}</p>
+                    <p>{{po.company}}</p>
+                    <p>{{po.email}}</p>
+                    <p>{{po.project_size}}</p>
+                </div>
+                {% endfor %}
             </div>
         </div>
-    </div>
-</body>
-</html>
+        <div class="container pipeline">
+            <h1>Sales Pipeline</h1>
+            <div class="search-container">
+                <input type="text" id="search" placeholder="Search...">
+            </div>
+            <table class="sales-pipeline-table">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Company</th>
+                        <th>Project Size (kW)</th>
+                        <th>Project Value (USD)</th>
+                        <th>Owner</th>
+                        <th>Status</th>
+                        <th>Next Action</th>
+                        <th>Scheduled On</th>
+                        <th>Next Action Owner</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for lead in fresh_leads %}
+                        <tr>
+                            <td>{{lead.name}}</td>
+                            <td>{{lead.company}}</td>
+                            <td>{{lead.project_size}}</td>
+                            <td>{{lead.estimated_project_value}}</td>
+                            <td>{{lead.owner}}</td>
+                            <td><span class="status fresh">{{lead.status}}</span></td>
+                            <td>{{lead.next_action}}</td>
+                            <td>{{lead.next_action_scheduled_on}}</td>
+                            <td>{{lead.next_action_owner}}</td>
+                        </tr>
+                    {%endfor%}
+                </tbody>
+            </table>
+            <div class="pagination-div">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                  <div>
+                    Showing page {{page_object.number}} of
+                    {{page_object.paginator.num_pages}}
+                  </div>
+                  <ul class="pagination mb-0">
+                    {% if page_object.has_previous %}
+                    <li
+                      class="page-item{% if page_object.number == 1 %} active{% endif %}"
+                    >
+                      <a class="page-link" href="?page=1" aria-label="First">
+                        <span aria-hidden="true">&laquo; 1</span>
+                      </a>
+                    </li>
+                    <li class="page-item">
+                      <a
+                        class="page-link"
+                        href="?page={{ page_object.previous_page_number }}"
+                        aria-label="Previous"
+                      >
+                        <span aria-hidden="true">Previous</span>
+                      </a>
+                    </li>
+                    {% endif %} {% if page_object.has_next %}
+                    <li class="page-item">
+                      <a
+                        class="page-link"
+                        href="?page={{ page_object.next_page_number }}"
+                        aria-label="Next"
+                      >
+                        <span aria-hidden="true">Next</span>
+                      </a>
+                    </li>
+                    <li class="page-item">
+                      <a
+                        class="page-link"
+                        href="?page={{ page_object.paginator.num_pages }}"
+                        aria-label="Last"
+                      >
+                        <span aria-hidden="true"
+                          >{{ page_object.paginator.num_pages }} &raquo;</span
+                        >
+                      </a>
+                    </li>
+                    {% endif %}
+                  </ul>
+                </div>
+              </div>
+          </div>
+      </div>
+      <script src="{% static 'js/search.js' %}"></script>
+    {% endblock %}
+
+

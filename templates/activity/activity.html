@@ -1,0 +1,25 @@
+<!-- latest_actions.html -->
+{% extends 'base.html' %}
+{% block content %}
+{% load static%}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="{% static 'css/activity.css' %}">
+{% endblock %}
+
+<div class="container activity">
+    <h2>Latest Actions</h2>
+    <ul>
+        {% for action in latest_actions %}
+            <div class="card">
+                <div class="card-header">
+                    <span class="action-time">Created Lead at:{{ action.action_time }}</span>
+                </div>
+                
+            </div>
+        {% empty %}
+            <p>No actions found.</p>
+        {% endfor %}
+    </ul>
+</div>
+{% endblock %}

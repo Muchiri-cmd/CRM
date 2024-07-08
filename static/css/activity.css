@@ -1,0 +1,35 @@
+.container.activity{
+    margin:2em auto;
+    padding: 20px;
+    width:80%;
+    margin-right:50px;
+}
+.card {
+    background-color: #ffffff;
+    border: 1px solid #e0e0e0;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    transition: transform 0.3s ease-in-out;
+}
+.card:hover {
+    transform: translateY(-5px);
+}
+.card-header {
+    background-color: #f0f0f0;
+    padding: 10px;
+    border-bottom: 1px solid #e0e0e0;
+}
+.action-time {
+    font-weight: bold;
+    color: #333333;
+    font-size: 1em;
+}
+.card-body {
+    padding: 15px;
+}
+.action-description {
+    font-size: 1em;
+    color: #666666;
+    line-height: 1.5;
+}
