@@ -25,6 +25,31 @@
         <input id="company" name="company" type="text" placeholder="ABCD Inc." required>
       </div>
 
+      <!-- Industry -->
+      <div class="form-group">
+        <label for="industry">Industry</label>
+          <select name="industry" id="industry">
+            <option value="Agriculture">Agriculture</option>
+            <option value="Automobile">Automobile</option>
+            <option value="Banking">Banking</option>
+            <option value="Construction">Construction</option>
+            <option value="Education">Education</option>
+            <option value="Energy">Energy</option>
+            <option value="Food">Food</option>
+            <option value="Healthcare">Healthcare</option>
+            <option value="Hospitality">Hospitality</option>
+            <option value="IT">IT</option>
+            <option value="Manufacturing">Manufacturing</option>
+            <option value="Media">Media</option>
+            <option value="Real Estate">Real Estate</option>
+            <option value="Retail">Retail</option>
+            <option value="Telecom">Telecom</option>
+            <option value="Transport">Transport</option>
+            <option value="Other">Other</option>
+          </select>
+      </div>
+     
+    
       <!-- Email -->
       <div class="form-group">
         <label for="email">Email</label>
@@ -39,10 +64,33 @@
 
       <!-- Address -->
       <div class="form-group">
-        <label for="address">Address</label>
-        <textarea id="address" name="address" placeholder="123 Main St, City, Country" rows="4" required></textarea>
+        <label for="address">Country</label>
+        <select name="address" id="address">
+          <!--popular countries in East AFrica and Kenya-->
+          <option value="Kenya">Kenya</option>
+          <option value="Uganda">Uganda</option>
+          <option value="Tanzania">Tanzania</option>
+          <option value="Rwanda">Rwanda</option>
+          <option value="Burundi">Burundi</option>
+          <option value="South Sudan">South Sudan</option>
+          <option value="Somalia">Somalia</option>
+          <option value="Ethiopia">Ethiopia</option>
+          <option value="Eritrea">Eritrea</option>
+          <option value="Djibouti">Djibouti</option>
+          <option value="South Africa">South Africa</option>
+        </select>
       </div>
 
+      <!-- Project Type -->
+      <div class="form-group">
+        <label for="project_type">Project Type</label>
+          <select name="project_type" id="project_type">
+            <option value="EPC">EPC</option>
+            <option value="ETA">ETA</option>
+            <option value="Tender">Tender</option>
+            <option value="Lease">Lease</option>
+          </select>
+      </div>
       <!-- Project Size -->
       <div class="form-group">
         <label for="projectSize">Project Size (kW)</label>
@@ -66,14 +114,14 @@
           </select>
       </div>
 
-      <div class="form-group">
+      {% comment %} <div class="form-group">
           <label for="owner">Owner</label>
           <select id="owner" name="owner" required>
             {% for user in users %}
               <option value="{{ user.username }}">{{ user.username }}</option>
             {% endfor %}
           </select>
-      </div>
+      </div> {% endcomment %}
 
       <div class="form-group">
           <label for="status">Status</label>
@@ -108,14 +156,14 @@
       </div>
 
       <!-- Next Action Owner -->
-      <div class="form-group">
+      {% comment %} <div class="form-group">
         <label for="next_owner">Next Action Owner</label>
         <select id="next_owner" name="next_action_owner" required>
           {% for user in users %}
               <option value="{{ user.username }}">{{ user.username }}</option>
           {% endfor %}
         </select>
-      </div>
+      </div> {% endcomment %}
 
       <!-- Submit Button -->
       <div class="form-group">
