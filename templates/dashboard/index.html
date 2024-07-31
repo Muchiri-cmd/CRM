@@ -13,23 +13,23 @@
         </header>
         <div class="dashboard-cards">
             <div class="card">
-                <div class="card-title">New Leads</div>
+                <div class="card-title"><a href="{% url 'leads:new_leads' %}">New Leads</a></div>
                 <div class="card-value">{{new_leads}}</div>
                 <div class="card-percentage">--%</div>
             </div>
             <div class="card">
-                <div class="card-title">Site Surveys</div>
+                <div class="card-title"><a href="{% url 'leads:site_surveys' %}">Site Surveys</a></div>
                 <div class="card-value">{{site_surveys_count}}</div>
                 <div class="card-percentage">--%</div>
             </div>
             <div class="card">
-                <div class="card-title">Proposals</div>
+                <div class="card-title"><a href="{% url 'leads:proposals' %}">Proposals</a></div>
                 <div class="card-value">{{proposals_count}}</div>
                 <div class="card-percentage">--%</div>
             </div>
             <div class="card">
-                <div class="card-title">Won</div>
-                <div class="card-value">-</div>
+                <div class="card-title"><a href="{% url 'leads:won' %}">Won</a></div>
+                <div class="card-value">{{won.count}}</div>
                 <div class="card-percentage">--%</div>
             </div>
         </div>

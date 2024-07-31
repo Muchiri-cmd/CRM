@@ -12,29 +12,40 @@ def leads(request):
     industry = request.GET.get('industry')
     status = request.GET.get('status')
     project_type = request.GET.get('project_type')
+
+    print("Initial Leads: " + str(leads))
+    print("Country: " + str(country))
     
     if price_min:
         leads = leads.filter(estimated_project_value__gte=price_min)
+        print("After price_min filter: " + str(leads))
     if price_max:
         leads = leads.filter(estimated_project_value__lte=price_max)
+        print("After price_max filter: " + str(leads))
     if country:
-        leads = leads.filter(country__icontains=country)
+        leads = leads.filter(address__icontains=country)
+        print("After country filter: " + str(leads))
     if industry:
         leads = leads.filter(industry__icontains=industry)
+        print("After industry filter: " + str(leads))
     if status:
         leads = leads.filter(status__icontains=status)
+        print("After status filter: " + str(leads))
     if project_type:
         leads = leads.filter(project_type__icontains=project_type)
+        print("After project_type filter: " + str(leads))
 
     paginator_ref = Paginator(leads, 10)
     page_number = request.GET.get('page')
     page_object = paginator_ref.get_page(page_number)
 
+    print("Final Leads: " + str(leads))
+    
     context = {
         'leads': leads,
         'page_object': page_object
     }
-    return render(request, 'leads/leads.html',context)
+    return render(request, 'leads/leads.html', context)
 
 def create_lead(request):
     if request.POST:
@@ -51,7 +62,8 @@ def create_lead(request):
         estimated_project_value = request.POST.get('estimated_project_value')
         status = request.POST.get('status')
         next_action = request.POST.get('next_action')
-        next_action_scheduled_on = request.POST.get('scheduledOn')
+        next_action_scheduled_on = request.POST.get('next_action_scheduled_on')
+        date = request.POST.get('due_date')
         # owner_username = request.POST.get('owner') 
         owner_username = request.user
         source = request.POST.get('source')
@@ -125,3 +137,31 @@ def delete_lead(request, id):
     lead = Leads.objects.get(id=id)
     lead.delete()
     return redirect('leads:leads')
+
+def won(request):
+    leads = Leads.objects.filter(status='Won')
+    context = {
+        'leads': leads
+    }
+    return render(request, 'leads/filtered_leads.html', context)
+
+def new_leads(request):
+    leads = Leads.objects.filter(status='Fresh')
+    context = {
+        'leads': leads
+    }
+    return render(request, 'leads/filtered_leads.html', context)
+
+def site_surveys(request):
+    leads = Leads.objects.filter(status='Site Survey')
+    context = {
+        'leads': leads
+    }
+    return render(request, 'leads/filtered_leads.html', context)
+
+def proposals(request):
+    leads = Leads.objects.filter(status='Proposal')
+    context = {
+        'leads': leads
+    }
+    return render(request, 'leads/filtered_leads.html', context)

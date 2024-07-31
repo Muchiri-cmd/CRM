@@ -12,7 +12,10 @@ def index(request):
     proposals_count = Leads.objects.filter(status='Proposal').count()
     proposals = Leads.objects.filter(status='Proposal')
 
+    won_count = Leads.objects.filter(status='Won').count()
+
     fresh_leads = Leads.objects.filter(status='Fresh')
+    won = Leads.objects.filter(status='Won')
     engineering_design = Leads.objects.filter(status='Engineering Design')
     po_received = Leads.objects.filter(status='PO Received')
 
@@ -29,6 +32,8 @@ def index(request):
         'proposals': proposals,
         'fresh_leads': fresh_leads,
         'enginering_design': engineering_design,
+        'won':won,
+        'won_count':won_count,
         'po_received': po_received,
         'site_surveys_count': site_surveys_count,
         'proposals_count': proposals_count,
