@@ -1,5 +1,6 @@
 from django.shortcuts import render,redirect
-from django.contrib.auth.models import User
+# from django.contrib.auth.models import User
+from Users.models import User
 from .models import *
 from django.core.paginator import Paginator
 
@@ -34,11 +35,18 @@ def leads(request):
         'leads': leads,
         'page_object': page_object
     }
+
+    if request.user.is_employee:
+        return render(request, 'leads/staff-leads.html', context)
     return render(request, 'leads/leads.html', context)
 
+from django.shortcuts import render, redirect
+from Users.models import User
+from .models import Leads
+
 def create_lead(request):
-    if request.POST:
-       # Extract data from the POST request
+    if request.method == 'POST':
+        # Extract data from the POST request
         name = request.POST.get('name')
         company = request.POST.get('company')
         country = request.POST.get('country')
@@ -46,7 +54,7 @@ def create_lead(request):
         email = request.POST.get('email')
         phone = request.POST.get('phone')
         address = request.POST.get('address')
-        project_type= request.POST.get('project_type')
+        project_type = request.POST.get('project_type')
         project_size = request.POST.get('project_size')
         bess_size = request.POST.get('bess_size')
         estimated_project_value = request.POST.get('estimated_project_value')
@@ -56,13 +64,12 @@ def create_lead(request):
         year = request.POST.get('year')
         due_date = request.POST.get('due_date')
        
-        owner_username = request.user
+        owner_user = request.user
         source = request.POST.get('source')
-        next_action_owner = request.POST.get('next_action_owner')
+        next_action_owner_username = request.POST.get('next_action_owner')
 
         # Get the corresponding User object for next_action_owner
-        owner_user = User.objects.get(username=owner_username)
-        next_action_owner = User.objects.get(username=next_action_owner)
+        next_action_owner_user = User.objects.get(username=next_action_owner_username)
 
         # Create a new Leads object
         new_lead = Leads.objects.create(
@@ -81,10 +88,10 @@ def create_lead(request):
             next_action=next_action,
             next_action_scheduled_on=next_action_scheduled_on,
             year=year,
-            due_date = due_date,
+            due_date=due_date,
             owner=owner_user,
             source=source,
-            next_action_owner=next_action_owner
+            next_action_owner=next_action_owner_user
         )
         return redirect('leads:leads')
 
@@ -92,12 +99,13 @@ def create_lead(request):
     context = {
         'users': users
     }
-    return render(request, 'leads/create_new_lead.html',context)
+
+    return render(request, 'leads/create_new_lead.html', context)
+
 
 def edit_lead(request, id):
     lead = Leads.objects.get(id=id)
     if request.method == 'POST':
-        print(lead.name)
         lead.name = request.POST.get('name', lead.name)
         lead.company = request.POST.get('company', lead.company)
         lead.country = request.POST.get('country', lead.country)

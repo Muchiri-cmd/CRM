@@ -1,5 +1,6 @@
 from django.db import models
-from django.contrib.auth.models import User
+# from django.contrib.auth.models import User
+from main.settings import AUTH_USER_MODEL as User
 
 class Leads(models.Model):
     STATUS_CHOICES = [
@@ -128,7 +129,7 @@ class Leads(models.Model):
     status = models.CharField(max_length=100, choices=STATUS_CHOICES, null=True, blank=True)
     next_action = models.CharField(max_length=100,choices=NEXT_ACTION_CHOICES, null=True, blank=True)
     next_action_scheduled_on = models.DateField(null=True, blank=True)
-    # next_action_owner = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
+    next_action_owner = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
     year = models.IntegerField(null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     due_date = models.DateTimeField(null=True, blank=True)
