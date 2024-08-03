@@ -15,6 +15,7 @@ def index(request):
     won_count = Leads.objects.filter(status='Won').count()
 
     fresh_leads = Leads.objects.filter(status='Fresh')
+    fresh_leads_count = Leads.objects.filter(status='Fresh').count()
     won = Leads.objects.filter(status='Won')
     engineering_design = Leads.objects.filter(status='Engineering Design')
     po_received = Leads.objects.filter(status='PO Received')
@@ -25,12 +26,12 @@ def index(request):
     page_object = paginator_ref.get_page(page_number)
 
 
-
     context = {
         'new_leads': new_leads,
         'site_surveys': site_surveys,
         'proposals': proposals,
         'fresh_leads': fresh_leads,
+        'fresh_leads_count': fresh_leads_count,
         'enginering_design': engineering_design,
         'won':won,
         'won_count':won_count,

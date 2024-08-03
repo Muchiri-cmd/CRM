@@ -14,7 +14,7 @@ def sales_funnel(request):
     fresh_leads = Leads.objects.filter(status='Fresh').count()
     project_value = Leads.objects.aggregate(Sum('estimated_project_value'))['estimated_project_value__sum'] or 0
 
-    po_received = Leads.objects.filter(status='PO Received').count()
+    won = Leads.objects.filter(status='Won').count()
     site_survey = Leads.objects.filter(status='Site Survey').count()
 
     def calculate_percentage(count):
@@ -24,7 +24,7 @@ def sales_funnel(request):
         {"stage": "Fresh", "count": fresh_leads, "percentage": calculate_percentage(fresh_leads)},
         {"stage": "Site Survey", "count": site_survey, "percentage": calculate_percentage(site_survey)},
         {"stage": "Proposals", "count": proposals, "percentage": calculate_percentage(proposals)},
-        {"stage": "PO Received", "count": po_received, "percentage": calculate_percentage(po_received)},
+        {"stage": "Won", "count": won, "percentage": calculate_percentage(won)},
         {"stage": "Projects Value", "count": float(project_value), "percentage": calculate_percentage(float(0))}
     ]
     context = {
@@ -42,7 +42,7 @@ def sales_analytics(request):
         'datasets': []
     }
 
-    statuses = ['Engineering Design', 'Site Survey', 'Proposal', 'PO Received']
+    statuses = ['Engineering Design', 'Site Survey', 'Proposal', 'Won']
     colors = ['rgba(75, 192, 192, 1)', 'rgba(255, 99, 132, 1)', 'rgba(54, 162, 235, 1)', 'rgba(255, 206, 86, 1)']
 
   

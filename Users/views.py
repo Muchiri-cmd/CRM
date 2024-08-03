@@ -14,9 +14,7 @@ def register_view(request):
         try:
             # Check if user exists
             user = User.objects.get(email=email)
-            print("User account present")
         except User.DoesNotExist:
-            print("User not present")
             user = User.objects.create_user(email=email,password=password,username=username)
             user.save()
             return redirect("dashboard:index")
@@ -39,9 +37,7 @@ def login_view(request):
            
             if user is not None:
                 authenticated_user=authenticate(request,username=username,password=password)
-                print("User account present")
                 if authenticated_user is not None:
-                    print("User authenticated successfully")
                     login(request, user)
                     return redirect("dashboard:index")
                 else:

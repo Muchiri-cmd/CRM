@@ -21,17 +21,20 @@ class Leads(models.Model):
     ]
 
     SOURCE_CHOICES = [
-        ('Online', 'Online'),
-        ('Referral', 'Referral'),
-        ('Cold Call', 'Cold Call'),
-        ('Networking Event', 'Networking Event'),
-        ('Other', 'Other'),
+        ('Tender', 'Tender'),
+        ('Internal', 'Internal'),
+        ('Channel Partner', 'Channel Patner'),
+        ('Organic', 'Organic'),
     ]
 
     PROJECT_TYPES = [
         ('EPC','EPC'),
         ('ETA', 'ETA'),
-        ('Tender','Tender'),
+        ('PPA', 'PPA'),
+        ('EPC & PPA', 'EPC & PPA'),
+        ('EPC & LEASE', 'EPC & LEASE'),
+        ('PPA & LEASE', 'PPA & LEASE'),
+        ('EPC & PPA & LEASE', 'EPC & PPA & LEASE'),
         ('Lease','Lease')
     ]
 
@@ -118,7 +121,7 @@ class Leads(models.Model):
     address = models.CharField(max_length=200)
     project_type = models.CharField(max_length=100,choices=PROJECT_TYPES,null=True,blank=True)
     project_size = models.PositiveIntegerField(null=True, blank=True)
-    # priority = models.IntegerField(default=0)
+    bess_size = models.PositiveIntegerField(null=True, blank=True)
     estimated_project_value = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
     source = models.CharField(max_length=100, choices=SOURCE_CHOICES ,null=True, blank=True)
     owner = models.ForeignKey(User, on_delete=models.CASCADE, related_name='leads_as_owner', null=True, blank=True)
@@ -126,10 +129,10 @@ class Leads(models.Model):
     next_action = models.CharField(max_length=100,choices=NEXT_ACTION_CHOICES, null=True, blank=True)
     next_action_scheduled_on = models.DateField(null=True, blank=True)
     # next_action_owner = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
+    year = models.IntegerField(null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     due_date = models.DateTimeField(null=True, blank=True)
     
-
     def __str__(self):
         return self.name
     

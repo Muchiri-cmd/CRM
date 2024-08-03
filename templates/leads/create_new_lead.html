@@ -15,13 +15,13 @@
 
       <!-- Name -->
       <div class="form-group">
-        <label for="name">Name</label>
+        <label for="name">Group Name</label>
         <input id="name" name="name" type="text" placeholder="John Doe" required>
       </div>
 
       <!-- Company -->
       <div class="form-group">
-        <label for="company">Company</label>
+        <label for="company">Company Name</label>
         <input id="company" name="company" type="text" placeholder="ABCD Inc." required>
       </div>
 
@@ -87,8 +87,12 @@
           <select name="project_type" id="project_type">
             <option value="EPC">EPC</option>
             <option value="ETA">ETA</option>
-            <option value="Tender">Tender</option>
-            <option value="Lease">Lease</option>
+            <option value="PPA">PPA</option>
+            <option value="EPC & PPA">EPC & PPA</option>
+            <option value="EPC & LEASE">EPC & Lease</option>
+            <option value="PPA & LEASE">PPA & LEASE</option>
+            <option value="EPC & PPA & LEASE">EPC & PPA & LEASE</option>
+            <option value="Lease">Lease</option >
           </select>
       </div>
       <!-- Project Size -->
@@ -97,6 +101,11 @@
         <input id="projectSize" name="project_size" type="number" placeholder="1000" required>
       </div>
 
+      <!-- BESS Size-->
+      <div class="form-group">
+        <label for="bessSize">BESS Size</label>
+        <input id="bessSize" name="bess_size" type="number" placeholder="1000" required>  
+      </div>
       <!-- Estimated Project Value -->
       <div class="form-group">
         <label for="estimatedValue">Estimated Project Value</label>
@@ -106,10 +115,10 @@
       <div class="form-group">
           <label for="source">Source</label>
           <select id="source" name="source" required>
-            <option value="Online">Online</option>
-            <option value="Referral">Referral</option>
-            <option value="Cold Call">Cold Call</option>
-            <option value="Networking Event">Networking Event</option>
+            <option value="Tender">Tender</option>
+            <option value="Internal">Internal</option>
+            <option value="Channel Partner">Channel Patner</option>
+            <option value="Organic">Organic</option>
             <option value="Other">Other</option>
           </select>
       </div>
@@ -155,6 +164,12 @@
         <input id="scheduledOn" name="next_action_scheduled_on" type="date" required>
       </div>
 
+      <!-- year -->
+      <div class="form-group">
+        <label for="year">Year</label>
+        <input id="year" name="year" type="number" min="2000" max="2024" required>
+      </div>
+
       <!--due date-->
       <div class="form-group">
         <label for="due_date">Due Date</label>
@@ -162,14 +177,14 @@
       </div>
       
       <!-- Next Action Owner -->
-      {% comment %} <div class="form-group">
+      <div class="form-group">
         <label for="next_owner">Next Action Owner</label>
         <select id="next_owner" name="next_action_owner" required>
           {% for user in users %}
               <option value="{{ user.username }}">{{ user.username }}</option>
           {% endfor %}
         </select>
-      </div> {% endcomment %}
+      </div>
 
       <!-- Submit Button -->
       <div class="form-group">

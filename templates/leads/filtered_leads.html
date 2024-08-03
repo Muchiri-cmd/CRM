@@ -65,6 +65,7 @@
             <div class="lead-column">Status</div>
             <div class="lead-column">Next Action</div>
             <div class="lead-column">Next Action Scheduled On</div>
+            <div class="lead-column">Due date</div>
             <div class="lead-column">Edit</div>
             <div class="lead-column">Delete</div>
         </div>
@@ -82,6 +83,7 @@
               <div class="lead-column">{{ lead.status }}</div>
               <div class="lead-column">{{ lead.next_action }}</div>
               <div class="lead-column">{{ lead.next_action_scheduled_on }}</div>
+              <div class="lead-column">{{ lead.due_date }}</div>
               <div class="lead-column">
                 <button class="edit-btn">
                   <a href="{% url 'leads:edit_lead' lead.id%}">EDIT</a>
