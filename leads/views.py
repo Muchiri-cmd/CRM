@@ -3,17 +3,24 @@ from django.shortcuts import render,redirect
 from Users.models import User
 from .models import *
 from django.core.paginator import Paginator
+from django.db.models import Q
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
+@login_required
 def leads(request):
-    leads = Leads.objects.all()
+    if request.user.is_employee:
+        leads = Leads.objects.filter(Q(owner=request.user) | Q(next_action_owner=request.user))
+    else:
+        leads = Leads.objects.all()
+
     price_min = request.GET.get('price_min')
     price_max = request.GET.get('price_max')
     country = request.GET.get('country')
     industry = request.GET.get('industry')
     status = request.GET.get('status')
     project_type = request.GET.get('project_type')
-    
+
     if price_min:
         leads = leads.filter(estimated_project_value__gte=price_min)
     if price_max:
@@ -40,11 +47,13 @@ def leads(request):
         return render(request, 'leads/staff-leads.html', context)
     return render(request, 'leads/leads.html', context)
 
-from django.shortcuts import render, redirect
-from Users.models import User
-from .models import Leads
 
+@login_required 
 def create_lead(request):
+    if not request.user.is_manager:
+        print("unauthorized access")
+        return render(request, 'dashboard/no_access.html')
+    
     if request.method == 'POST':
         # Extract data from the POST request
         name = request.POST.get('name')
@@ -102,7 +111,7 @@ def create_lead(request):
 
     return render(request, 'leads/create_new_lead.html', context)
 
-
+@login_required
 def edit_lead(request, id):
     lead = Leads.objects.get(id=id)
     if request.method == 'POST':
@@ -135,13 +144,43 @@ def edit_lead(request, id):
     }
     return render(request, 'leads/edit_lead.html', context)
 
+@login_required
 def delete_lead(request, id):
+    if not request.user.is_manager:
+        print("unauthorized access")
+        return render(request, 'dashboard/no_access.html')
+    
     lead = Leads.objects.get(id=id)
     lead.delete()
     return redirect('leads:leads')
 
+@login_required
 def won(request):
-    leads = Leads.objects.filter(status='Won')
+    if request.user.is_employee:
+        leads = Leads.objects.filter((Q(owner=request.user) | Q(next_action_owner=request.user)) & Q(status='Won'))
+    else:
+        leads = Leads.objects.filter(status='Won')
+
+    price_min = request.GET.get('price_min')
+    price_max = request.GET.get('price_max')
+    country = request.GET.get('country')
+    industry = request.GET.get('industry')
+    status = request.GET.get('status')
+    project_type = request.GET.get('project_type')
+
+    if price_min:
+        leads = leads.filter(estimated_project_value__gte=price_min)
+    if price_max:
+        leads = leads.filter(estimated_project_value__lte=price_max)
+    if country:
+        leads = leads.filter(address__icontains=country)
+    if industry:
+        leads = leads.filter(industry__icontains=industry)
+    if status:
+        leads = leads.filter(status__icontains=status)
+    if project_type:
+        leads = leads.filter(project_type__icontains=project_type)
+
     paginator_ref = Paginator(leads, 10)
     page_number = request.GET.get('page')
     page_object = paginator_ref.get_page(page_number)
@@ -150,10 +189,38 @@ def won(request):
         'leads': leads,
         'page_object': page_object
     }
+    # return render(request, 'leads/filtered_leads.html', context)
+    if request.user.is_employee:
+        return render(request, 'leads/staff-filtered.html', context)
     return render(request, 'leads/filtered_leads.html', context)
 
+@login_required
 def new_leads(request):
-    leads = Leads.objects.filter(status='Fresh')
+    if request.user.is_employee:
+        leads = Leads.objects.filter((Q(owner=request.user) | Q(next_action_owner=request.user)) & Q(status='Fresh'))
+    else:
+        leads = Leads.objects.all()
+
+    price_min = request.GET.get('price_min')
+    price_max = request.GET.get('price_max')
+    country = request.GET.get('country')
+    industry = request.GET.get('industry')
+    status = request.GET.get('status')
+    project_type = request.GET.get('project_type')
+
+    if price_min:
+        leads = leads.filter(estimated_project_value__gte=price_min)
+    if price_max:
+        leads = leads.filter(estimated_project_value__lte=price_max)
+    if country:
+        leads = leads.filter(address__icontains=country)
+    if industry:
+        leads = leads.filter(industry__icontains=industry)
+    if status:
+        leads = leads.filter(status__icontains=status)
+    if project_type:
+        leads = leads.filter(project_type__icontains=project_type)
+
     paginator_ref = Paginator(leads, 10)
     page_number = request.GET.get('page')
     page_object = paginator_ref.get_page(page_number)
@@ -162,10 +229,37 @@ def new_leads(request):
         'leads': leads,
         'page_object': page_object
     }
+    if request.user.is_employee:
+        return render(request, 'leads/staff-filtered.html', context)
     return render(request, 'leads/filtered_leads.html', context)
 
+@login_required
 def site_surveys(request):
-    leads = Leads.objects.filter(status='Site Survey')
+    if request.user.is_employee:
+        leads = Leads.objects.filter((Q(owner=request.user) | Q(next_action_owner=request.user)) & Q(status='Site Survey'))
+    else:
+       leads = Leads.objects.all()
+
+    price_min = request.GET.get('price_min')
+    price_max = request.GET.get('price_max')
+    country = request.GET.get('country')
+    industry = request.GET.get('industry')
+    status = request.GET.get('status')
+    project_type = request.GET.get('project_type')
+
+    if price_min:
+        leads = leads.filter(estimated_project_value__gte=price_min)
+    if price_max:
+        leads = leads.filter(estimated_project_value__lte=price_max)
+    if country:
+        leads = leads.filter(address__icontains=country)
+    if industry:
+        leads = leads.filter(industry__icontains=industry)
+    if status:
+        leads = leads.filter(status__icontains=status)
+    if project_type:
+        leads = leads.filter(project_type__icontains=project_type)
+
     paginator_ref = Paginator(leads, 10)
     page_number = request.GET.get('page')
     page_object = paginator_ref.get_page(page_number)
@@ -174,10 +268,37 @@ def site_surveys(request):
         'leads': leads,
         'page_object': page_object
     }
+    if request.user.is_employee:
+        return render(request, 'leads/staff-filtered.html', context)
     return render(request, 'leads/filtered_leads.html', context)
 
+@login_required
 def proposals(request):
-    leads = Leads.objects.filter(status='Proposal')
+    if request.user.is_employee:
+        leads = Leads.objects.filter((Q(owner=request.user) | Q(next_action_owner=request.user)) & Q(status='Site Survey'))
+    else:
+       leads = Leads.objects.all()
+
+    price_min = request.GET.get('price_min')
+    price_max = request.GET.get('price_max')
+    country = request.GET.get('country')
+    industry = request.GET.get('industry')
+    status = request.GET.get('status')
+    project_type = request.GET.get('project_type')
+
+    if price_min:
+        leads = leads.filter(estimated_project_value__gte=price_min)
+    if price_max:
+        leads = leads.filter(estimated_project_value__lte=price_max)
+    if country:
+        leads = leads.filter(address__icontains=country)
+    if industry:
+        leads = leads.filter(industry__icontains=industry)
+    if status:
+        leads = leads.filter(status__icontains=status)
+    if project_type:
+        leads = leads.filter(project_type__icontains=project_type)
+
     paginator_ref = Paginator(leads, 10)
     page_number = request.GET.get('page')
     page_object = paginator_ref.get_page(page_number)
@@ -186,4 +307,6 @@ def proposals(request):
         'leads': leads,
         'page_object': page_object
     }
+    if request.user.is_employee:
+        return render(request, 'leads/staff-filtered.html', context)
     return render(request, 'leads/filtered_leads.html', context)

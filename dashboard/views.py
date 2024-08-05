@@ -36,7 +36,7 @@ def index(request):
         'won_count': won.count(),
         'site_surveys_count': site_surveys.count(),
         'proposals_count': proposals.count(),
-        'page_object': page_object
+        'page_object': page_object,
     }
 
     if request.user.is_employee:

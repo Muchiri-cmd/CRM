@@ -21,7 +21,7 @@ h1 {
 .leads-table {
   margin-top:50px;
   display: grid;
-  grid-template-columns: repeat(16, auto);
+  grid-template-columns: repeat(14, auto);
   min-width: 1200px; 
 }
 
