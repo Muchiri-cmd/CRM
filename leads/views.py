@@ -5,6 +5,14 @@ from .models import *
 from django.core.paginator import Paginator
 from django.db.models import Q
 from django.contrib.auth.decorators import login_required
+from django.core.mail import send_mail
+
+import os 
+from dotenv import load_dotenv
+
+import threading
+def send_email_in_thread(subject, message, from_email, recepient_list):
+    send_mail(subject, message, from_email, recepient_list, fail_silently=False)
 
 # Create your views here.
 @login_required
@@ -47,6 +55,7 @@ def leads(request):
         return render(request, 'leads/staff-leads.html', context)
     return render(request, 'leads/leads.html', context)
 
+from Users.models import User
 
 @login_required 
 def create_lead(request):
@@ -102,6 +111,17 @@ def create_lead(request):
             source=source,
             next_action_owner=next_action_owner_user
         )
+        if (next_action_owner_user):
+            load_dotenv()
+
+            subject = "New Lead has been assigned to you"
+            from_email = os.getenv('EMAIL_HOST_USER')
+            recepient_list=[next_action_owner_user.email]
+            message = f"Hi {next_action_owner_user.username},\n\nA new lead {company} has been assigned to you. Please login to your account to view the details."
+            
+              
+            email_thread = threading.Thread(target=send_email_in_thread, args=(subject, message, from_email, recepient_list))
+            email_thread.start()
         return redirect('leads:leads')
 
     users = User.objects.all()
