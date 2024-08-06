@@ -1,11 +1,5 @@
-{% extends 'base.html' %}
 {% load static %}
 
-{% block stylesheets %}
-  <link rel="stylesheet" href="{% static 'css/leads.css' %}">
-{% endblock %}
-
-{% block content %}
 <div class="container">
   <h1>Leads List</h1>
   <div class="leads-table-container">
@@ -96,6 +90,7 @@
               <option value="Zimbabwe">Zimbabwe</option>
             </select>
           </div>
+       
           <button type="submit" class="apply-filters-btn">Apply Filters</button>
           <button type="button" id="clear-filters" class="clear-filters-btn">Clear Filters</button>
         </form>
@@ -115,12 +110,14 @@
             <div class="lead-column">Size</div>
             <div class="lead-column">Value</div>
             <div class="lead-column">Status</div>
-            <div class="lead-column">Next Action</div>
+            <div class="lead-column">Stage</div>
             <div class="lead-column">Next Action Owner</div>
             <div class="lead-column">Next Action Scheduled On</div>
             <div class="lead-column">Due date</div>
             <div class="lead-column">Edit</div>
-            <div class="lead-column">Delete</div>
+            {% if request.user.is_manager %}
+              <div class="lead-column">Delete</div>
+            {% endif %}
         </div>
         {% for lead in leads %}
           <div class="lead-row">
@@ -143,11 +140,14 @@
                   <a href="{% url 'leads:edit_lead' lead.id%}">EDIT</a>
                 </button>
               </div> 
+              {% if request.user.is_manager %}
               <div class="lead-column">
                 <button class="delete-btn">
-                  <a href="{% url 'leads:delete_lead' lead.id%}">DELETE</a>
+                  <a href="{% url 'leads:delete_lead' lead.id %}">DELETE</a>
                 </button>
               </div>
+            {% endif %}
+            
           </div>
         {% endfor %}
         <div class="pagination-div">
@@ -204,6 +204,3 @@
 </div>
 <script src="{% static 'js/search_leads.js' %}"></script>
 <script src ="{% static 'js/filter.js' %}"></script>
-
-
-{% endblock content %}

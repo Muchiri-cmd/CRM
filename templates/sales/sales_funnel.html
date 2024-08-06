@@ -1,53 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block stylesheets %}
-    <link rel="stylesheet" href="{% static 'css/sales_funnel.css' %}">
-{% endblock %}
-
 {% block content %}
-<div class="container funnel">
-    <div id="funnel"></div>
-</div>
-
-<script src="https://d3js.org/d3.v7.min.js"></script>
-<script>
-    document.addEventListener("DOMContentLoaded", function() {
-        const funnelDataRaw = '{{ funnel_data|escapejs }}';
-        let data = [];
-
-        try {
-            data = JSON.parse(funnelDataRaw);
-        } catch (e) {
-            console.error('Error parsing JSON:', e);
-            return;
-        }
-
-        const funnel = document.getElementById('funnel');
-
-        data.forEach((d, i) => {
-            const stageDiv = document.createElement('div');
-            stageDiv.className = 'funnel-stage';
-
-            const countDiv = document.createElement('div');
-            countDiv.className = 'count';
-            countDiv.textContent = d.count;
-
-            const stageP = document.createElement('p');
-            stageP.textContent = d.stage;
-
-            const percentageP = document.createElement('p');
-            percentageP.textContent = `${d.percentage.toFixed(2)}%`;
-
-            stageDiv.appendChild(countDiv);
-            stageDiv.appendChild(stageP);
-            stageDiv.appendChild(percentageP);
-            funnel.appendChild(stageDiv);
-        });
-
-        const funnelShape = document.createElement('div');
-        funnelShape.className = 'funnel-shape';
-        funnel.appendChild(funnelShape);
-    });
-</script>
+    {% include "funnel.html" %}
 {% endblock %}

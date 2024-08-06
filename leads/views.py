@@ -6,30 +6,20 @@ from django.core.paginator import Paginator
 from django.db.models import Q
 from django.contrib.auth.decorators import login_required
 from django.core.mail import send_mail
-
 import os 
 from dotenv import load_dotenv
-
 import threading
+
+
 def send_email_in_thread(subject, message, from_email, recepient_list):
     send_mail(subject, message, from_email, recepient_list, fail_silently=False)
 
-# Create your views here.
-@login_required
-def leads(request):
-    if request.user.is_employee:
-        leads = Leads.objects.filter(Q(owner=request.user) | Q(next_action_owner=request.user))
-    else:
-        leads = Leads.objects.all()
-
+def filter_leads(request,leads):
     price_min = request.GET.get('price_min')
     price_max = request.GET.get('price_max')
     country = request.GET.get('country')
     size_min = request.GET.get('size_min')
     size_max = request.GET.get('size_max')
-    # industry = request.GET.get('industry')
-    # status = request.GET.get('status')
-    # project_type = request.GET.get('project_type')
 
     if price_min:
         leads = leads.filter(estimated_project_value__gte=price_min)
@@ -41,25 +31,31 @@ def leads(request):
         leads = leads.filter(project_size__gte=size_min)
     if size_max:
         leads = leads.filter(project_size__lte=size_max)
-    # if industry:
-    #     leads = leads.filter(industry__icontains=industry)
-    # if status:
-    #     leads = leads.filter(status__icontains=status)
-    # if project_type:
-    #     leads = leads.filter(project_type__icontains=project_type)
 
+    return leads
+
+def paginate_leads(leads, request):
     paginator_ref = Paginator(leads, 10)
     page_number = request.GET.get('page')
     page_object = paginator_ref.get_page(page_number)
-    
-    context = {
-        'leads': leads,
-        'page_object': page_object
-    }
+    return page_object
 
+
+    
+# Create your views here.
+@login_required
+def leads(request):
     if request.user.is_employee:
-        return render(request, 'leads/staff-leads.html', context)
-    return render(request, 'leads/leads.html', context)
+        leads = Leads.objects.filter(Q(owner=request.user) | Q(next_action_owner=request.user))
+    else:
+        leads = Leads.objects.all()
+
+    leads = filter_leads(request, leads)
+    page_object = paginate_leads(leads, request)
+    
+    context = { 'leads': leads, 'page_object': page_object}
+    template = 'leads/staff-leads.html' if request.user.is_employee else 'leads/leads.html'
+    return render(request, template, context)
 
 from Users.models import User
 
@@ -121,22 +117,20 @@ def create_lead(request):
         )
         if (next_action_owner_user):
             load_dotenv()
-
             subject = "New Lead has been assigned to you"
             from_email = os.getenv('EMAIL_HOST_USER')
             recepient_list=[next_action_owner_user.email]
             message = f"Hi {next_action_owner_user.username},\n\nA new lead {company} has been assigned to you. Please login to your account to view the details."
             
-              
             email_thread = threading.Thread(target=send_email_in_thread, args=(subject, message, from_email, recepient_list))
             email_thread.start()
+
         return redirect('leads:leads')
 
     users = User.objects.all()
     context = {
         'users': users
     }
-
     return render(request, 'leads/create_new_lead.html', context)
 
 @login_required
@@ -167,10 +161,7 @@ def edit_lead(request, id):
         return redirect('leads:leads')
 
     users = User.objects.all()
-    context = {
-        'users': users,
-        'lead': lead
-    }
+    context = {'users': users,'lead': lead}
     return render(request, 'leads/edit_lead.html', context)
 
 @login_required
@@ -192,47 +183,13 @@ def won(request):
     else:
         leads = Leads.objects.filter(status='Won')
   
-
-    price_min = request.GET.get('price_min')
-    price_max = request.GET.get('price_max')
-    country = request.GET.get('country')
-    size_min = request.GET.get('size_min')
-    size_max = request.GET.get('size_max')
-    # industry = request.GET.get('industry')
-    # status = request.GET.get('status')
-    # project_type = request.GET.get('project_type')
-
-    if price_min:
-        leads = leads.filter(estimated_project_value__gte=price_min)
-    if price_max:
-        leads = leads.filter(estimated_project_value__lte=price_max)
-    if country:
-        leads = leads.filter(address__icontains=country)
-    if size_min:
-        leads = leads.filter(project_size__gte=size_min)
-    if size_max:
-        leads = leads.filter(project_size__lte=size_max)
-    # if industry:
-    #     leads = leads.filter(industry__icontains=industry)
-    # if status:
-    #     leads = leads.filter(status__icontains=status)
-    # if project_type:
-    #     leads = leads.filter(project_type__icontains=project_type)
-
-    paginator_ref = Paginator(leads, 10)
-    page_number = request.GET.get('page')
-    page_object = paginator_ref.get_page(page_number)
+    leads = filter_leads(request, leads)
+    page_object = paginate_leads(leads, request)
     
-    context = {
-        'leads': leads,
-        'page_object': page_object
-    }
+    context = { 'leads': leads,'page_object': page_object}
+    template = 'leads/staff-leads.html' if request.user.is_employee else 'leads/leads.html'
 
-    # return render(request, 'leads/filtered_leads.html', context)
-    if request.user.is_employee:
-        return render(request, 'leads/staff-filtered.html', context)
-    return render(request, 'leads/filtered_leads.html', context)
-
+    return render(request, template, context)
 
 # @login_required
 def cold(request):
@@ -243,45 +200,13 @@ def cold(request):
     else:
         leads = Leads.objects.filter(status='Cold')
   
+    leads = filter_leads(request, leads)
+    page_object = paginate_leads(leads, request)
 
-    price_min = request.GET.get('price_min')
-    price_max = request.GET.get('price_max')
-    country = request.GET.get('country')
-    size_min = request.GET.get('size_min')
-    size_max = request.GET.get('size_max')
-    # industry = request.GET.get('industry')
-    # status = request.GET.get('status')
-    # project_type = request.GET.get('project_type')
+    context = { 'leads': leads,'page_object': page_object}
 
-    if price_min:
-        leads = leads.filter(estimated_project_value__gte=price_min)
-    if price_max:
-        leads = leads.filter(estimated_project_value__lte=price_max)
-    if country:
-        leads = leads.filter(address__icontains=country)
-    if size_min:
-        leads = leads.filter(project_size__gte=size_min)
-    if size_max:
-        leads = leads.filter(project_size__lte=size_max)
-    # if industry:
-    #     leads = leads.filter(industry__icontains=industry)
-    # if status:
-    #     leads = leads.filter(status__icontains=status)
-    # if project_type:
-    #     leads = leads.filter(project_type__icontains=project_type)
-
-    paginator_ref = Paginator(leads, 10)
-    page_number = request.GET.get('page')
-    page_object = paginator_ref.get_page(page_number)
-    
-    context = {
-        'leads': leads,
-        'page_object': page_object
-    }
-
-    if request.user.is_employee:
-        return render(request, 'leads/staff-filtered.html', context)
-    return render(request, 'leads/filtered_leads.html', context)
+    template = 'leads/staff-leads.html' if request.user.is_employee else 'leads/leads.html'
+    return render(request, template, context)
 
 @login_required
 def new_leads(request):
@@ -292,44 +217,12 @@ def new_leads(request):
     else:
         leads = Leads.objects.filter(status='Fresh')
 
-    price_min = request.GET.get('price_min')
-    price_max = request.GET.get('price_max')
-    country = request.GET.get('country')
-    size_min = request.GET.get('size_min')
-    size_max = request.GET.get('size_max')
-    # industry = request.GET.get('industry')
-    # status = request.GET.get('status')
-    # project_type = request.GET.get('project_type')
+    leads = filter_leads(request, leads)
+    page_object = paginate_leads(leads, request)
 
-    if price_min:
-        leads = leads.filter(estimated_project_value__gte=price_min)
-    if price_max:
-        leads = leads.filter(estimated_project_value__lte=price_max)
-    if country:
-        leads = leads.filter(address__icontains=country)
-    if size_min:
-        leads = leads.filter(project_size__gte=size_min)
-    if size_max:
-        leads = leads.filter(project_size__lte=size_max)
-    # if industry:
-    #     leads = leads.filter(industry__icontains=industry)
-    # if status:
-    #     leads = leads.filter(status__icontains=status)
-    # if project_type:
-    #     leads = leads.filter(project_type__icontains=project_type)
-
-    paginator_ref = Paginator(leads, 10)
-    page_number = request.GET.get('page')
-    page_object = paginator_ref.get_page(page_number)
-    
-    context = {
-        'leads': leads,
-        'page_object': page_object
-    }
-
-    if request.user.is_employee:
-        return render(request, 'leads/staff-filtered.html', context)
-    return render(request, 'leads/filtered_leads.html', context)
+    context = {'leads': leads,'page_object': page_object}
+    template = 'leads/staff-leads.html' if request.user.is_employee else 'leads/leads.html'
+    return render(request, template, context)
 
 @login_required
 def site_surveys(request):
@@ -340,44 +233,13 @@ def site_surveys(request):
     else:
         leads = Leads.objects.filter(next_action='Site Survey')
 
-    price_min = request.GET.get('price_min')
-    price_max = request.GET.get('price_max')
-    country = request.GET.get('country')
-    size_min = request.GET.get('size_min')
-    size_max = request.GET.get('size_max')
-    # industry = request.GET.get('industry')
-    # status = request.GET.get('status')
-    # project_type = request.GET.get('project_type')
+    leads = filter_leads(request, leads)
+    page_object = paginate_leads(leads, request)
 
-    if price_min:
-        leads = leads.filter(estimated_project_value__gte=price_min)
-    if price_max:
-        leads = leads.filter(estimated_project_value__lte=price_max)
-    if country:
-        leads = leads.filter(address__icontains=country)
-    if size_min:
-        leads = leads.filter(project_size__gte=size_min)
-    if size_max:
-        leads = leads.filter(project_size__lte=size_max)
-    # if industry:
-    #     leads = leads.filter(industry__icontains=industry)
-    # if status:
-    #     leads = leads.filter(status__icontains=status)
-    # if project_type:
-    #     leads = leads.filter(project_type__icontains=project_type)
+    context = { 'leads': leads,'page_object': page_object}
 
-    paginator_ref = Paginator(leads, 10)
-    page_number = request.GET.get('page')
-    page_object = paginator_ref.get_page(page_number)
-    
-    context = {
-        'leads': leads,
-        'page_object': page_object
-    }
-
-    if request.user.is_employee:
-        return render(request, 'leads/staff-filtered.html', context)
-    return render(request, 'leads/filtered_leads.html', context)
+    template = 'leads/staff-leads.html' if request.user.is_employee else 'leads/leads.html'
+    return render(request, template, context)
 
 @login_required
 def proposals(request):
@@ -388,41 +250,10 @@ def proposals(request):
     else:
         leads = Leads.objects.filter(next_action='Proposal')
 
-    price_min = request.GET.get('price_min')
-    price_max = request.GET.get('price_max')
-    country = request.GET.get('country')
-    size_min = request.GET.get('size_min')
-    size_max = request.GET.get('size_max')
-    # industry = request.GET.get('industry')
-    # status = request.GET.get('status')
-    # project_type = request.GET.get('project_type')
-
-    if price_min:
-        leads = leads.filter(estimated_project_value__gte=price_min)
-    if price_max:
-        leads = leads.filter(estimated_project_value__lte=price_max)
-    if country:
-        leads = leads.filter(address__icontains=country)
-    if size_min:
-        leads = leads.filter(project_size__gte=size_min)
-    if size_max:
-        leads = leads.filter(project_size__lte=size_max)
-    # if industry:
-    #     leads = leads.filter(industry__icontains=industry)
-    # if status:
-    #     leads = leads.filter(status__icontains=status)
-    # if project_type:
-    #     leads = leads.filter(project_type__icontains=project_type)
-
-    paginator_ref = Paginator(leads, 10)
-    page_number = request.GET.get('page')
-    page_object = paginator_ref.get_page(page_number)
+    leads = filter_leads(request, leads)
+    page_object = paginate_leads(leads, request)
     
-    context = {
-        'leads': leads,
-        'page_object': page_object
-    }
-
-    if request.user.is_employee:
-        return render(request, 'leads/staff-filtered.html', context)
-    return render(request, 'leads/filtered_leads.html', context)
+    context = {'leads': leads,'page_object': page_object}
+    template = 'leads/staff-leads.html' if request.user.is_employee else 'leads/leads.html'
+    return render(request, template, context)
+    
