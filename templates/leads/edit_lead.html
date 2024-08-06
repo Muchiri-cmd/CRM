@@ -65,11 +65,11 @@
     <div class="form-group">
       <label for="stages">Stage</label>
       <select id="stages" name="stages" required>
-        <option value="New Lead" {% if lead.stage == 'New Lead' %}selected{% endif %}>New Lead</option>
-        <option value="Site Visit" {% if lead.stage == 'Site Visit' %}selected{% endif %}>Site Visit</option>
-        <option value="Design & Proposal" {% if lead.stage == 'Design & Proposal' %}selected{% endif %}>Design & Proposal</option>
-        <option value="Submission Proposal" {% if lead.stage == 'Submission Proposal' %}selected{% endif %}>Submission Proposal</option>
-        <option value="Meeting" {% if lead.stage == 'Meeting' %}selected{% endif %}>Meeting</option>
+        <option value="New Lead" {% if lead.next_action == 'New Lead' %}selected{% endif %}>New Lead</option>
+        <option value="Site Visit" {% if lead.next_action == 'Site Visit' %}selected{% endif %}>Site Visit</option>
+        <option value="Design & Proposal" {% if lead.next_action == 'Design & Proposal' %}selected{% endif %}>Design & Proposal</option>
+        <option value="Submission Proposal" {% if lead.next_action == 'Submission Proposal' %}selected{% endif %}>Submission Proposal</option>
+        <option value="Meeting" {% if lead.next_action == 'Meeting' %}selected{% endif %}>Meeting</option>
         <option value="Proposal Update" {% if lead.stage == 'Proposal Update' %}selected{% endif %}>Proposal Update</option>
       </select>
     </div>
@@ -90,6 +90,23 @@
       <div class="form-group">
         <label for="scheduledOn">Next Action Scheduled On</label>
         <input id="scheduledOn" name="next_action_scheduled_on" value="{{ lead.next_action_scheduled_on|date:'Y-m-d' }}" type="date" required>
+      </div>
+
+      <div class="form-group">
+        <label for="next_owner">Next Action Owner</label>
+        <select id="next_owner" name="next_action_owner" required>
+            {% for user in users %}
+                <option value="{{ user.username }}" {% if user.username == lead.next_action_owner.username %}selected{% endif %}>
+                    {{ user.username }}
+                </option>
+            {% endfor %}
+        </select>
+      </div>
+    
+
+      <div class="form-group">
+        <label for="due_date">Due Date</label>
+        <input id="due_date" name="due_date" type="date" value="{{ lead.due_date|date:'Y-m-d' }}"required>
       </div>
 
       <!-- Next Action Owner -->

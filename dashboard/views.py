@@ -16,7 +16,7 @@ def index(request):
     else:
         leads = Leads.objects.none()
 
-    site_surveys = leads.filter(next_action='Site Survey').order_by('created_at')[:5]
+    site_surveys = leads.filter(next_action='Site Visit').order_by('created_at')[:5]
     proposals = leads.filter(next_action='Proposal').order_by('created_at')[:5]
     won = leads.filter(status='Won').order_by('created_at')[:5]
     fresh_leads = leads.filter(Q(status='Fresh') | Q(status='New Lead')).order_by('-created_at')[:5]
@@ -25,7 +25,7 @@ def index(request):
 
     now = timezone.now()
     one_week_from_now = now + timedelta(weeks=1)
-    due_in_next_week = Leads.objects.filter(
+    due_in_next_week = leads.filter(
         due_date__gte=now,
         due_date__lte=one_week_from_now
     )
@@ -33,7 +33,7 @@ def index(request):
     new_leads_count = leads.filter(Q(status='Fresh') | Q(status='New Lead')).count()
     cold_count = leads.filter(status='Cold').count()
     won_count = leads.filter(status='Won').count()
-    site_surveys_count = leads.filter(next_action='Site Survey').count()
+    site_surveys_count = leads.filter(next_action__in=['Site Visit', 'Site Survey']).count()
     proposals_count = leads.filter(next_action='Proposal').count()
 
     # Pagination 

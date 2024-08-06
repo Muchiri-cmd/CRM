@@ -50,7 +50,7 @@ def leads(request):
     else:
         leads = Leads.objects.all()
 
-    leads = filter_leads(request, leads)
+    leads = filter_leads(request, leads).order_by('due_date')
     page_object = paginate_leads(leads, request)
     
     context = { 'leads': leads, 'page_object': page_object}
@@ -150,8 +150,9 @@ def edit_lead(request, id):
         lead.status = request.POST.get('status', lead.status)
         # lead.stage = request.POST.get('stages', lead.stage)
         lead.next_action = request.POST.get('stages', lead.next_action)
+        lead.next_action_owner = User.objects.get(username=request.POST.get('next_action_owner', lead.next_action_owner.username))
         lead.next_action_scheduled_on = request.POST.get('next_action_scheduled_on', lead.next_action_scheduled_on)
-
+        lead.due_date = request.POST.get('due_date', lead.due_date)
         # Assuming that the owner is being updated or assigned to the current user
         owner_username = request.user.username
         owner_user = User.objects.get(username=owner_username)
@@ -228,10 +229,10 @@ def new_leads(request):
 def site_surveys(request):
     if request.user.is_employee:
         leads = Leads.objects.filter(
-            (Q(owner=request.user) | Q(next_action_owner=request.user)) & Q(next_action='Site Survey')
+            (Q(owner=request.user) | Q(next_action_owner=request.user)) & Q(next_action='Site Visit')
         )
     else:
-        leads = Leads.objects.filter(next_action='Site Survey')
+        leads = Leads.objects.filter(next_action='Site Visit')
 
     leads = filter_leads(request, leads)
     page_object = paginate_leads(leads, request)

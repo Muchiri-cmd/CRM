@@ -40,24 +40,22 @@
   </div>
   <div class="lead-stages">
       <div class="stage">
-          <h2>Fresh</h2>
-          {% for lead in fresh_leads %}
+          <h2>Due in a week</h2>
+          {% for lead in leads_due_in_a_week %}
               <div class="lead">
-                  <p>{{lead.name}}</p>
-                  <p>{{lead.company}}</p>
-                  <p>{{lead.email}}</p>
-                  <p>{{lead.project_size}}</p>
+                  <p>Company :{{lead.company}}</p>
+                  <p>Email: {{lead.email}}</p>
+                  <p>Assignee: {{lead.next_action_owner}}</p>
               </div>
           {% endfor %}
       </div>
       <div class="stage">
-          <h2>Site Survey</h2>
+          <h2>Site Surveys</h2>
           {% for survey in site_surveys %}
               <div class="lead">
-                  <p>{{survey.name}}</p>
-                  <p>{{survey.company}}</p>
-                  <p>{{survey.email}}</p>
-                  <p>{{survey.project_size}}</p>
+                  <p>Company:{{survey.company}}</p>
+                  <p>Email:{{survey.email}}</p>
+                  <p>Assignee:{{survey.next_action_owner}}</p>
               </div>                        
           {% endfor %}
       </div>
@@ -65,21 +63,19 @@
           <h2>Meetings</h2>
           {% for meet in meeting %}
               <div class="lead">
-                  <p>{{meet.name}}</p>
-                  <p>{{meet.company}}</p>
-                  <p>{{meet.email}}</p>
-                  <p>{{meet.project_size}}</p>
+                  <p>Company:{{meet.company}}</p>
+                  <p>Email:{{meet.email}}</p>
+                  <p>Assignee:{{meet.next_action_owner}}</p>
               </div>
           {% endfor %}
       </div>
       <div class="stage">
-          <h2>Proposal Created</h2>
+          <h2>Proposals Created</h2>
           {% for proposal in proposals %}
               <div class="lead">
-                  <p>{{proposal.name}}</p>
-                  <p>{{proposal.company}}</p>
-                  <p>{{proposal.email}}</p>
-                  <p>{{proposal.project_size}}</p>
+                  <p>Company:{{proposal.company}}</p>
+                  <p>Email:{{proposal.email}}</p>
+                  <p>Assignee:{{proposal.next_action_owner}}</p>
               </div>
           {% endfor %}
       </div>
@@ -87,10 +83,9 @@
           <h2>Won</h2>
           {% for project in won %}
           <div class="lead">
-              <p>{{project.name}}</p>
-              <p>{{project.company}}</p>
-              <p>{{project.email}}</p>
-              <p>{{project.project_size}}</p>
+              <p>Company:{{project.company}}</p>
+              <p>Email:{{project.email}}</p>
+              <p>Assignee:{{project.next_action_owner}}</p>
           </div>
           {% endfor %}
       </div>
