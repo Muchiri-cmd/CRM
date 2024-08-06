@@ -13,7 +13,7 @@
     <form id="leadForm" method="POST" action="{% url 'leads:create_lead' %}">
       {% csrf_token %}
 
-      <!-- Name -->
+      <!--  Group Name -->
       <div class="form-group">
         <label for="name">Group Name</label>
         <input id="name" name="name" type="text" placeholder="John Doe" required>
@@ -164,27 +164,28 @@
           </select>
       </div>
 
-      {% comment %} <div class="form-group">
-          <label for="owner">Owner</label>
-          <select id="owner" name="owner" required>
-            {% for user in users %}
-              <option value="{{ user.username }}">{{ user.username }}</option>
-            {% endfor %}
-          </select>
-      </div> {% endcomment %}
-
       <div class="form-group">
           <label for="status">Status</label>
           <select id="status" name="status" required>
-            <option value="Fresh">Fresh</option>
-            <option value="Site Survey">Site Survey</option>
-            <option value="Proposal">Proposal</option>
-            <option value="Commercials Finalized">Commercials Finalized</option>
+            <option value="Neutral">Neutral</option>
+            <option value="Warm">Warm</option>
             <option value="Won">Won</option>
-            <option value="Cold">Cold</option>
           </select>
       </div>
     
+      <div class="form-group">
+        <label for="stages">Stages</label>
+        <select id="stages" name="stages" required>
+          <option value="New Lead">New Lead</option>
+          <option value="Site Visit">Site Visit</option>
+          <option value="Design & Proposal">Design & Proposal</option>
+          <option value="Submission Proposal">Submission Proposal</option>
+          <option value="Update">Update</option>
+          <option value="Meeting">Meeting</option>
+          <option value="Won">Won</option>
+          <option value="Proposal Update">Proposal Update</option>
+        </select>
+      </div>
 
       <!-- Next Action -->
       <div class="form-group">

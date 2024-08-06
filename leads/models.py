@@ -4,14 +4,20 @@ from main.settings import AUTH_USER_MODEL as User
 
 class Leads(models.Model):
     STATUS_CHOICES = [
-        ('Fresh', 'Fresh'),
-        ('Site Survey', 'Site Survey'),
-        ('Engineering Design', 'Engineering Design'),
-        ('Proposal', 'Proposal'),
-        ('Commercials Finalized', 'Commercials Finalized'),
-        ('PO Received', 'PO Received'),
-        ('Cold', 'Cold'),
+        ('Neutral', 'Neutral'),
+        ('Warm', 'Warm'),
         ('Won', 'Won'),
+    ]
+
+    STAGES = [
+        ('New Lead', 'New Lead'),
+        ('Site Visit', 'Site Visit'),
+        ('Design & Proposal', 'Design & Proposal'),
+        ('Submission Proposal', 'Submission Proposal'),
+        ('Update', 'Update'),
+        ('Meeting', 'Meeting'),
+        ('Won', 'Won'),
+        ('Proposal Update', 'Proposal Update'),
     ]
     NEXT_ACTION_CHOICES = [
         ('Site Survey', 'Site Survey'),
@@ -127,6 +133,7 @@ class Leads(models.Model):
     source = models.CharField(max_length=100, choices=SOURCE_CHOICES ,null=True, blank=True)
     owner = models.ForeignKey(User, on_delete=models.CASCADE, related_name='leads_as_owner', null=True, blank=True)
     status = models.CharField(max_length=100, choices=STATUS_CHOICES, null=True, blank=True)
+    stage = models.CharField(max_length=100, choices=STAGES, null=True, blank=True)
     next_action = models.CharField(max_length=100,choices=NEXT_ACTION_CHOICES, null=True, blank=True)
     next_action_scheduled_on = models.DateField(null=True, blank=True)
     next_action_owner = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)

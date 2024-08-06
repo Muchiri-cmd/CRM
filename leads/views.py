@@ -77,6 +77,7 @@ def create_lead(request):
         bess_size = request.POST.get('bess_size')
         estimated_project_value = request.POST.get('estimated_project_value')
         status = request.POST.get('status')
+        stages = request.POST.get('stages')
         next_action = request.POST.get('next_action')
         next_action_scheduled_on = request.POST.get('next_action_scheduled_on')
         year = request.POST.get('year')
@@ -103,6 +104,7 @@ def create_lead(request):
             bess_size=bess_size,
             estimated_project_value=estimated_project_value,
             status=status,
+            stages = stages,
             next_action=next_action,
             next_action_scheduled_on=next_action_scheduled_on,
             year=year,
@@ -146,6 +148,7 @@ def edit_lead(request, id):
         lead.project_size = request.POST.get('project_size', lead.project_size)
         lead.estimated_project_value = request.POST.get('estimated_project_value', lead.estimated_project_value)
         lead.status = request.POST.get('status', lead.status)
+        lead.stages = request.POST.get('stages', lead.stages)
         lead.next_action = request.POST.get('next_action', lead.next_action)
         lead.next_action_scheduled_on = request.POST.get('next_action_scheduled_on', lead.next_action_scheduled_on)
 
