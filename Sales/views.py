@@ -17,21 +17,23 @@ def sales_funnel(request):
 
     total_leads = leads.count()
 
-    proposals = leads.filter(status='Proposal').count()
     fresh_leads = leads.filter(status='Fresh').count()
     project_value = leads.aggregate(Sum('estimated_project_value'))['estimated_project_value__sum'] or 0
     won = leads.filter(status='Won').count()
-    site_survey = leads.filter(status='Site Survey').count()
+    cold = leads.filter(status='Cold').count()
+    neutral = leads.filter(status='Neutral').count()
+    warm = leads.filter(status='Warm').count()
 
     def calculate_percentage(count):
         return (count / total_leads * 100) if total_leads > 0 else 0
 
     funnel_data = [
         {"stage": "Fresh", "count": fresh_leads, "percentage": calculate_percentage(fresh_leads)},
-        {"stage": "Site Survey", "count": site_survey, "percentage": calculate_percentage(site_survey)},
-        {"stage": "Proposals", "count": proposals, "percentage": calculate_percentage(proposals)},
+        {"stage": "Cold", "count": cold, "percentage": calculate_percentage(cold)},
+        {"stage": "Warm", "count": warm, "percentage": calculate_percentage(warm)},
+        {"stage": "Neutral", "count": neutral, "percentage": calculate_percentage(neutral)},
         {"stage": "Won", "count": won, "percentage": calculate_percentage(won)},
-        {"stage": "Projects Value", "count": float(project_value), "percentage": 0}  # Project value doesn't need percentage
+        {"stage": "Projects Value", "count": float(project_value), "percentage": 0} 
     ]
 
     context = {
@@ -45,8 +47,6 @@ def sales_funnel(request):
     else:
         return render(request, 'dashboard/no_access.html')
 
-
-@login_required
 def sales_analytics(request):
     if request.user.is_employee:
         leads = Leads.objects.filter(Q(owner=request.user) | Q(next_action_owner=request.user))
@@ -62,23 +62,23 @@ def sales_analytics(request):
         'datasets': []
     }
 
-    statuses = ['Fresh', 'Site Survey', 'Proposal', 'Won']
-    colors = ['rgba(75, 192, 192, 1)', 'rgba(255, 99, 132, 1)', 'rgba(54, 162, 235, 1)', 'rgba(255, 206, 86, 1)']
+    stages = ['New Lead', 'Site Visit', 'Design & Proposal', 'Submission Proposal', 'Meeting', 'Proposal Update']
+    colors = ['rgba(75, 192, 192, 1)', 'rgba(255, 99, 132, 1)', 'rgba(54, 162, 235, 1)', 'rgba(255, 206, 86, 1)', 'rgba(153, 102, 255, 1)', 'rgba(255, 159, 64, 1)']
 
-    for i, status in enumerate(statuses):
+    for i, status in enumerate(stages):
         status_data = []
         for month in range(1, 13):
-            start_date = timezone.datetime(current_year, month, 1)
-            end_date = timezone.datetime(current_year, month, calendar.monthrange(current_year, month)[1], 23, 59, 59)
-            count = leads.filter(status=status, created_at__range=[start_date, end_date]).count()
+            start_date = timezone.make_aware(timezone.datetime(current_year, month, 1))
+            end_date = timezone.make_aware(timezone.datetime(current_year, month, calendar.monthrange(current_year, month)[1], 23, 59, 59))
+            count = leads.filter(next_action=status, created_at__range=[start_date, end_date]).count()
             status_data.append(count)
 
         dataset = {
             'label': status,
             'data': status_data,
-            'borderColor': colors[i],
+            'borderColor': colors[i % len(colors)],  # Use modulo to avoid index error if stages > colors
             'borderWidth': 1,
-            'hidden': i != 0  # Show only the first dataset by default
+            'hidden': i != 0  # Optionally adjust visibility
         }
 
         data['datasets'].append(dataset)
@@ -89,7 +89,6 @@ def sales_analytics(request):
         return render(request, 'sales/sales_analytics.html', {'chart_data': data})
     else:
         return render(request, 'dashboard/no_access.html')
-
 
 @login_required
 def sales_pipeline(request):

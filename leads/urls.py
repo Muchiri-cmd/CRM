@@ -8,6 +8,7 @@ urlpatterns=[
     path('edit_lead/<int:id>/',edit_lead,name='edit_lead'),
     path('delete_lead/<int:id>/',delete_lead,name='delete_lead'),
     path('won/',won,name='won'),
+    path('cold/',cold,name='cold'),
     path('new_lead/',new_leads,name='new_leads'),
     path('site_surveys/',site_surveys,name='site_surveys'),
     path('proposals/',proposals,name='proposals'),

@@ -25,9 +25,11 @@ def leads(request):
     price_min = request.GET.get('price_min')
     price_max = request.GET.get('price_max')
     country = request.GET.get('country')
-    industry = request.GET.get('industry')
-    status = request.GET.get('status')
-    project_type = request.GET.get('project_type')
+    size_min = request.GET.get('size_min')
+    size_max = request.GET.get('size_max')
+    # industry = request.GET.get('industry')
+    # status = request.GET.get('status')
+    # project_type = request.GET.get('project_type')
 
     if price_min:
         leads = leads.filter(estimated_project_value__gte=price_min)
@@ -35,12 +37,16 @@ def leads(request):
         leads = leads.filter(estimated_project_value__lte=price_max)
     if country:
         leads = leads.filter(address__icontains=country)
-    if industry:
-        leads = leads.filter(industry__icontains=industry)
-    if status:
-        leads = leads.filter(status__icontains=status)
-    if project_type:
-        leads = leads.filter(project_type__icontains=project_type)
+    if size_min:
+        leads = leads.filter(project_size__gte=size_min)
+    if size_max:
+        leads = leads.filter(project_size__lte=size_max)
+    # if industry:
+    #     leads = leads.filter(industry__icontains=industry)
+    # if status:
+    #     leads = leads.filter(status__icontains=status)
+    # if project_type:
+    #     leads = leads.filter(project_type__icontains=project_type)
 
     paginator_ref = Paginator(leads, 10)
     page_number = request.GET.get('page')
@@ -77,8 +83,8 @@ def create_lead(request):
         bess_size = request.POST.get('bess_size')
         estimated_project_value = request.POST.get('estimated_project_value')
         status = request.POST.get('status')
-        stages = request.POST.get('stages')
-        next_action = request.POST.get('next_action')
+        # stages = request.POST.get('stages')
+        next_action = request.POST.get('stages')
         next_action_scheduled_on = request.POST.get('next_action_scheduled_on')
         year = request.POST.get('year')
         due_date = request.POST.get('due_date')
@@ -104,7 +110,7 @@ def create_lead(request):
             bess_size=bess_size,
             estimated_project_value=estimated_project_value,
             status=status,
-            stages = stages,
+            # stages = stages,
             next_action=next_action,
             next_action_scheduled_on=next_action_scheduled_on,
             year=year,
@@ -148,8 +154,8 @@ def edit_lead(request, id):
         lead.project_size = request.POST.get('project_size', lead.project_size)
         lead.estimated_project_value = request.POST.get('estimated_project_value', lead.estimated_project_value)
         lead.status = request.POST.get('status', lead.status)
-        lead.stages = request.POST.get('stages', lead.stages)
-        lead.next_action = request.POST.get('next_action', lead.next_action)
+        # lead.stage = request.POST.get('stages', lead.stage)
+        lead.next_action = request.POST.get('stages', lead.next_action)
         lead.next_action_scheduled_on = request.POST.get('next_action_scheduled_on', lead.next_action_scheduled_on)
 
         # Assuming that the owner is being updated or assigned to the current user
@@ -180,16 +186,21 @@ def delete_lead(request, id):
 @login_required
 def won(request):
     if request.user.is_employee:
-        leads = Leads.objects.filter((Q(owner=request.user) | Q(next_action_owner=request.user)) & Q(status='Won'))
+        leads = Leads.objects.filter(
+            (Q(owner=request.user) | Q(next_action_owner=request.user)) & Q(status='Won')
+        )
     else:
         leads = Leads.objects.filter(status='Won')
+  
 
     price_min = request.GET.get('price_min')
     price_max = request.GET.get('price_max')
     country = request.GET.get('country')
-    industry = request.GET.get('industry')
-    status = request.GET.get('status')
-    project_type = request.GET.get('project_type')
+    size_min = request.GET.get('size_min')
+    size_max = request.GET.get('size_max')
+    # industry = request.GET.get('industry')
+    # status = request.GET.get('status')
+    # project_type = request.GET.get('project_type')
 
     if price_min:
         leads = leads.filter(estimated_project_value__gte=price_min)
@@ -197,22 +208,77 @@ def won(request):
         leads = leads.filter(estimated_project_value__lte=price_max)
     if country:
         leads = leads.filter(address__icontains=country)
-    if industry:
-        leads = leads.filter(industry__icontains=industry)
-    if status:
-        leads = leads.filter(status__icontains=status)
-    if project_type:
-        leads = leads.filter(project_type__icontains=project_type)
+    if size_min:
+        leads = leads.filter(project_size__gte=size_min)
+    if size_max:
+        leads = leads.filter(project_size__lte=size_max)
+    # if industry:
+    #     leads = leads.filter(industry__icontains=industry)
+    # if status:
+    #     leads = leads.filter(status__icontains=status)
+    # if project_type:
+    #     leads = leads.filter(project_type__icontains=project_type)
 
     paginator_ref = Paginator(leads, 10)
     page_number = request.GET.get('page')
     page_object = paginator_ref.get_page(page_number)
-
+    
     context = {
         'leads': leads,
         'page_object': page_object
     }
+
     # return render(request, 'leads/filtered_leads.html', context)
+    if request.user.is_employee:
+        return render(request, 'leads/staff-filtered.html', context)
+    return render(request, 'leads/filtered_leads.html', context)
+
+
+# @login_required
+def cold(request):
+    if request.user.is_employee:
+        leads = Leads.objects.filter(
+            (Q(owner=request.user) | Q(next_action_owner=request.user)) & Q(status='Cold')
+        )
+    else:
+        leads = Leads.objects.filter(status='Cold')
+  
+
+    price_min = request.GET.get('price_min')
+    price_max = request.GET.get('price_max')
+    country = request.GET.get('country')
+    size_min = request.GET.get('size_min')
+    size_max = request.GET.get('size_max')
+    # industry = request.GET.get('industry')
+    # status = request.GET.get('status')
+    # project_type = request.GET.get('project_type')
+
+    if price_min:
+        leads = leads.filter(estimated_project_value__gte=price_min)
+    if price_max:
+        leads = leads.filter(estimated_project_value__lte=price_max)
+    if country:
+        leads = leads.filter(address__icontains=country)
+    if size_min:
+        leads = leads.filter(project_size__gte=size_min)
+    if size_max:
+        leads = leads.filter(project_size__lte=size_max)
+    # if industry:
+    #     leads = leads.filter(industry__icontains=industry)
+    # if status:
+    #     leads = leads.filter(status__icontains=status)
+    # if project_type:
+    #     leads = leads.filter(project_type__icontains=project_type)
+
+    paginator_ref = Paginator(leads, 10)
+    page_number = request.GET.get('page')
+    page_object = paginator_ref.get_page(page_number)
+    
+    context = {
+        'leads': leads,
+        'page_object': page_object
+    }
+
     if request.user.is_employee:
         return render(request, 'leads/staff-filtered.html', context)
     return render(request, 'leads/filtered_leads.html', context)
@@ -220,16 +286,20 @@ def won(request):
 @login_required
 def new_leads(request):
     if request.user.is_employee:
-        leads = Leads.objects.filter((Q(owner=request.user) | Q(next_action_owner=request.user)) & Q(status='Fresh'))
+        leads = Leads.objects.filter(
+            (Q(owner=request.user) | Q(next_action_owner=request.user)) & Q(status='Fresh')
+        )
     else:
-        leads = Leads.objects.all()
+        leads = Leads.objects.filter(status='Fresh')
 
     price_min = request.GET.get('price_min')
     price_max = request.GET.get('price_max')
     country = request.GET.get('country')
-    industry = request.GET.get('industry')
-    status = request.GET.get('status')
-    project_type = request.GET.get('project_type')
+    size_min = request.GET.get('size_min')
+    size_max = request.GET.get('size_max')
+    # industry = request.GET.get('industry')
+    # status = request.GET.get('status')
+    # project_type = request.GET.get('project_type')
 
     if price_min:
         leads = leads.filter(estimated_project_value__gte=price_min)
@@ -237,21 +307,26 @@ def new_leads(request):
         leads = leads.filter(estimated_project_value__lte=price_max)
     if country:
         leads = leads.filter(address__icontains=country)
-    if industry:
-        leads = leads.filter(industry__icontains=industry)
-    if status:
-        leads = leads.filter(status__icontains=status)
-    if project_type:
-        leads = leads.filter(project_type__icontains=project_type)
+    if size_min:
+        leads = leads.filter(project_size__gte=size_min)
+    if size_max:
+        leads = leads.filter(project_size__lte=size_max)
+    # if industry:
+    #     leads = leads.filter(industry__icontains=industry)
+    # if status:
+    #     leads = leads.filter(status__icontains=status)
+    # if project_type:
+    #     leads = leads.filter(project_type__icontains=project_type)
 
     paginator_ref = Paginator(leads, 10)
     page_number = request.GET.get('page')
     page_object = paginator_ref.get_page(page_number)
-
+    
     context = {
         'leads': leads,
         'page_object': page_object
     }
+
     if request.user.is_employee:
         return render(request, 'leads/staff-filtered.html', context)
     return render(request, 'leads/filtered_leads.html', context)
@@ -259,16 +334,20 @@ def new_leads(request):
 @login_required
 def site_surveys(request):
     if request.user.is_employee:
-        leads = Leads.objects.filter((Q(owner=request.user) | Q(next_action_owner=request.user)) & Q(status='Site Survey'))
+        leads = Leads.objects.filter(
+            (Q(owner=request.user) | Q(next_action_owner=request.user)) & Q(next_action='Site Survey')
+        )
     else:
-       leads = Leads.objects.all()
+        leads = Leads.objects.filter(next_action='Site Survey')
 
     price_min = request.GET.get('price_min')
     price_max = request.GET.get('price_max')
     country = request.GET.get('country')
-    industry = request.GET.get('industry')
-    status = request.GET.get('status')
-    project_type = request.GET.get('project_type')
+    size_min = request.GET.get('size_min')
+    size_max = request.GET.get('size_max')
+    # industry = request.GET.get('industry')
+    # status = request.GET.get('status')
+    # project_type = request.GET.get('project_type')
 
     if price_min:
         leads = leads.filter(estimated_project_value__gte=price_min)
@@ -276,21 +355,26 @@ def site_surveys(request):
         leads = leads.filter(estimated_project_value__lte=price_max)
     if country:
         leads = leads.filter(address__icontains=country)
-    if industry:
-        leads = leads.filter(industry__icontains=industry)
-    if status:
-        leads = leads.filter(status__icontains=status)
-    if project_type:
-        leads = leads.filter(project_type__icontains=project_type)
+    if size_min:
+        leads = leads.filter(project_size__gte=size_min)
+    if size_max:
+        leads = leads.filter(project_size__lte=size_max)
+    # if industry:
+    #     leads = leads.filter(industry__icontains=industry)
+    # if status:
+    #     leads = leads.filter(status__icontains=status)
+    # if project_type:
+    #     leads = leads.filter(project_type__icontains=project_type)
 
     paginator_ref = Paginator(leads, 10)
     page_number = request.GET.get('page')
     page_object = paginator_ref.get_page(page_number)
-
+    
     context = {
         'leads': leads,
         'page_object': page_object
     }
+
     if request.user.is_employee:
         return render(request, 'leads/staff-filtered.html', context)
     return render(request, 'leads/filtered_leads.html', context)
@@ -298,16 +382,20 @@ def site_surveys(request):
 @login_required
 def proposals(request):
     if request.user.is_employee:
-        leads = Leads.objects.filter((Q(owner=request.user) | Q(next_action_owner=request.user)) & Q(status='Site Survey'))
+        leads = Leads.objects.filter(
+            (Q(owner=request.user) | Q(next_action_owner=request.user)) & Q(next_action='Proposal')
+        )
     else:
-       leads = Leads.objects.all()
+        leads = Leads.objects.filter(next_action='Proposal')
 
     price_min = request.GET.get('price_min')
     price_max = request.GET.get('price_max')
     country = request.GET.get('country')
-    industry = request.GET.get('industry')
-    status = request.GET.get('status')
-    project_type = request.GET.get('project_type')
+    size_min = request.GET.get('size_min')
+    size_max = request.GET.get('size_max')
+    # industry = request.GET.get('industry')
+    # status = request.GET.get('status')
+    # project_type = request.GET.get('project_type')
 
     if price_min:
         leads = leads.filter(estimated_project_value__gte=price_min)
@@ -315,21 +403,26 @@ def proposals(request):
         leads = leads.filter(estimated_project_value__lte=price_max)
     if country:
         leads = leads.filter(address__icontains=country)
-    if industry:
-        leads = leads.filter(industry__icontains=industry)
-    if status:
-        leads = leads.filter(status__icontains=status)
-    if project_type:
-        leads = leads.filter(project_type__icontains=project_type)
+    if size_min:
+        leads = leads.filter(project_size__gte=size_min)
+    if size_max:
+        leads = leads.filter(project_size__lte=size_max)
+    # if industry:
+    #     leads = leads.filter(industry__icontains=industry)
+    # if status:
+    #     leads = leads.filter(status__icontains=status)
+    # if project_type:
+    #     leads = leads.filter(project_type__icontains=project_type)
 
     paginator_ref = Paginator(leads, 10)
     page_number = request.GET.get('page')
     page_object = paginator_ref.get_page(page_number)
-
+    
     context = {
         'leads': leads,
         'page_object': page_object
     }
+
     if request.user.is_employee:
         return render(request, 'leads/staff-filtered.html', context)
     return render(request, 'leads/filtered_leads.html', context)

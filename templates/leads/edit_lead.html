@@ -53,28 +53,28 @@
 
       <div class="form-group">
         <label for="status">Status</label>
-        <select id="status" name="status" required>
-          <option value="Neutral">Neutral</option>
-          <option value="Warm">Warm</option>
-          <option value="Won">Won</option>
+        <select id="status" name="status" required value={{lead.status}}>
+          <option value="Neutral" {% if lead.status == 'Neutral' %}selected{% endif %}>Neutral</option>
+          <option value="Warm" {% if lead.status == 'Warm' %}selected{% endif %}>Warm</option>
+          <option value="Won" {% if lead.status == 'Won' %}selected{% endif %}>Won</option>
+          <option value="Cold" {% if lead.status == 'Cold' %}selected{% endif %}>Cold</option>
+          <option value="Fresh" {% if lead.status == 'Fresh' %}selected{% endif %}>Fresh</option>
         </select>
     </div>
   
     <div class="form-group">
-      <label for="stages">Stages</label>
+      <label for="stages">Stage</label>
       <select id="stages" name="stages" required>
-        <option value="New Lead">New Lead</option>
-        <option value="Site Visit">Site Visit</option>
-        <option value="Design & Proposal">Design & Proposal</option>
-        <option value="Submission Proposal">Submission Proposal</option>
-        <option value="Update">Update</option>
-        <option value="Meeting">Meeting</option>
-        <option value="Won">Won</option>
-        <option value="Proposal Update">Proposal Update</option>
+        <option value="New Lead" {% if lead.stage == 'New Lead' %}selected{% endif %}>New Lead</option>
+        <option value="Site Visit" {% if lead.stage == 'Site Visit' %}selected{% endif %}>Site Visit</option>
+        <option value="Design & Proposal" {% if lead.stage == 'Design & Proposal' %}selected{% endif %}>Design & Proposal</option>
+        <option value="Submission Proposal" {% if lead.stage == 'Submission Proposal' %}selected{% endif %}>Submission Proposal</option>
+        <option value="Meeting" {% if lead.stage == 'Meeting' %}selected{% endif %}>Meeting</option>
+        <option value="Proposal Update" {% if lead.stage == 'Proposal Update' %}selected{% endif %}>Proposal Update</option>
       </select>
     </div>
 
-      <!-- Next Action -->
+      {% comment %} <!-- Next Action -->
       <div class="form-group">
         <label for="nextAction">Next Action</label>
         <select id="nextAction" name="next_action" required>
@@ -84,7 +84,7 @@
           <option value="Meeting">Meeting</option>
           <option value="Follow-up">Follow-up</option>
         </select>
-      </div>
+      </div> {% endcomment %}
 
       <!-- Next Action Scheduled On -->
       <div class="form-group">

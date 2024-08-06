@@ -165,29 +165,29 @@
       </div>
 
       <div class="form-group">
-          <label for="status">Status</label>
-          <select id="status" name="status" required>
-            <option value="Neutral">Neutral</option>
-            <option value="Warm">Warm</option>
-            <option value="Won">Won</option>
-          </select>
-      </div>
-    
-      <div class="form-group">
-        <label for="stages">Stages</label>
+        <label for="stages">Stage </label>
         <select id="stages" name="stages" required>
           <option value="New Lead">New Lead</option>
           <option value="Site Visit">Site Visit</option>
           <option value="Design & Proposal">Design & Proposal</option>
           <option value="Submission Proposal">Submission Proposal</option>
-          <option value="Update">Update</option>
           <option value="Meeting">Meeting</option>
-          <option value="Won">Won</option>
           <option value="Proposal Update">Proposal Update</option>
         </select>
       </div>
 
-      <!-- Next Action -->
+      <div class="form-group">
+        <label for="status">Status</label>
+        <select id="status" name="status" required>
+          <option value="Neutral">Neutral</option>
+          <option value="Warm">Warm</option>
+          <option value="Won">Won</option>
+          <option value="Cold">Cold</option>
+          <option value="Fresh">Fresh</option>
+        </select>
+      </div>
+      
+      {% comment %} <!-- Next Action -->
       <div class="form-group">
         <label for="nextAction">Next Action</label>
         <select id="nextAction" name="next_action" required>
@@ -197,7 +197,7 @@
           <option value="Meeting">Meeting</option>
           <option value="Follow-up">Follow-up</option>
         </select>
-      </div>
+      </div> {% endcomment %}
 
       <!-- Next Action Scheduled On -->
       <div class="form-group">

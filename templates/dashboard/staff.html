@@ -29,9 +29,14 @@
             </div>
             <div class="card">
                 <div class="card-title"><a href="{% url 'leads:won' %}">Won</a></div>
-                <div class="card-value">{{won.count}}</div>
+                <div class="card-value">{{won_count}}</div>
                 <div class="card-percentage">--%</div>
             </div>
+            <div class="card">
+              <div class="card-title"><a href="{% url 'leads:cold' %}">Cold</a></div>
+              <div class="card-value">{{cold_count}}</div>
+              <div class="card-percentage">--%</div>
+          </div>
         </div>
         <div class="lead-stages">
             <div class="stage">
@@ -57,16 +62,16 @@
                 {% endfor %}
             </div>
             <div class="stage">
-                <h2>Engineering Design</h2>
-                {% for design in engineering_design %}
-                    <div class="lead">
-                        <p>{{design.name}}</p>
-                        <p>{{design.company}}</p>
-                        <p>{{design.email}}</p>
-                        <p>{{design.project_size}}</p>
-                    </div>
-                {% endfor %}
-            </div>
+              <h2>Meeting</h2>
+              {% for meet in meeting %}
+                  <div class="lead">
+                      <p>{{meet.name}}</p>
+                      <p>{{meet.company}}</p>
+                      <p>{{meet.email}}</p>
+                      <p>{{meet.project_size}}</p>
+                  </div>
+              {% endfor %}
+          </div>
             <div class="stage">
                 <h2>Proposal Created</h2>
                 {% for proposal in proposals %}

@@ -21,9 +21,19 @@
             <label for="price-range">Price Range:</label>
             <div class="slider-container">
               <input type="range" id="price-min" name="price_min" min="0" max="100000" value="0">
-              <input type="range" id="price-max" name="price_max" min="0" max="1000000000" value="1000000000">
+              <input type="range" id="price-max" name="price_max" min="0" max="1000000" value="1000000">
               <div class="slider-values">
-                <span id="price-min-value">0</span> - <span id="price-max-value">100000</span>
+                <span id="price-min-value">0</span> - <span id="price-max-value">1000000</span>
+              </div>
+            </div>
+          </div>
+          <div class="filter-group">
+            <label for="project_size">Project Size:</label>
+            <div class="slider-container">
+              <input type="range" id="size-min" name="size_min" min="0" max="100000" value="0">
+              <input type="range" id="size-max" name="size_max" min="0" max="100000" value="100000">
+              <div class="slider-values">
+                <span id="size-min-value">0</span> - <span id="size-max-value">100000</span>
               </div>
             </div>
           </div>
@@ -106,6 +116,7 @@
             <div class="lead-column">Value</div>
             <div class="lead-column">Status</div>
             <div class="lead-column">Next Action</div>
+            <div class="lead-column">Next Action Owner</div>
             <div class="lead-column">Next Action Scheduled On</div>
             <div class="lead-column">Due date</div>
             <div class="lead-column">Edit</div>
@@ -124,6 +135,7 @@
               <div class="lead-column">{{ lead.estimated_project_value }}</div>
               <div class="lead-column">{{ lead.status }}</div>
               <div class="lead-column">{{ lead.next_action }}</div>
+              <div class="lead-column">{{ lead.next_action_owner }}</div>
               <div class="lead-column">{{ lead.next_action_scheduled_on }}</div>
               <div class="lead-column">{{ lead.due_date }}</div>
               <div class="lead-column">
@@ -191,41 +203,7 @@
   </div>
 </div>
 <script src="{% static 'js/search_leads.js' %}"></script>
-<script>
-  document.getElementById('filter-toggle').addEventListener('click', function() {
-    let filterSection = document.getElementById('filter-section');
-    if (filterSection.style.display === 'none' || filterSection.style.display === '') {
-      filterSection.style.display = 'block';
-    } else {
-      filterSection.style.display = 'none';
-    }
-  });
-
-  // Initialize slider values
-  const minRange = document.getElementById('price-min');
-  const maxRange = document.getElementById('price-max');
-  const minValue = document.getElementById('price-min-value');
-  const maxValue = document.getElementById('price-max-value');
-
-  // Sync slider values with display
-  function updateValues() {
-    minValue.textContent = minRange.value;
-    maxValue.textContent = maxRange.value;
-  }
-
-  minRange.addEventListener('input', updateValues);
-  maxRange.addEventListener('input', updateValues);
-
-  // Reset filters
-  document.getElementById('clear-filters').addEventListener('click', function() {
-    document.getElementById('filter-form').reset();
-    updateValues(); // Reset slider values display
-    window.location.href = window.location.pathname;
-  });
-
-  // Initialize slider values display
-  updateValues();
-</script>
+<script src ="{% static 'js/filter.js' %}"></script>
 
 
 {% endblock content %}
