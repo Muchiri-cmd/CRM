@@ -23,7 +23,7 @@
         <ul class="sidebar-menu">
             <li class="buttonside"><a href="{% url 'dashboard:index' %}">Dashboard</a></li>
             <li class="buttonside"><a href="{% url 'leads:create_lead' %}">Create New Lead</a></li>
-            <li class="buttonside"><a href="{% url 'Activity:activity_view' %}">Activity Log</a></li>
+            {% comment %} <li class="buttonside"><a href="{% url 'Activity:activity_view' %}">Activity Log</a></li> {% endcomment %}
             <li class="buttonside"><a href="{% url 'Sales:sales_funnel' %}">Sales Funnel</a></li>
             <li class="buttonside"><a href="{% url 'Sales:sales_analytics' %}">Analytics</a></li>
             <li class="buttonside"><a href="{% url 'Sales:sales_pipeline' %}">Sales Pipeline</a></li>
