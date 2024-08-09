@@ -95,7 +95,7 @@ WSGI_APPLICATION = 'main.wsgi.application'
 # }
 DATABASES = {
     'default': dj_database_url.config(
-        default='postgresql://postgres:your_new_password@localhost:5432/solarcrm',
+        default=os.getenv('DATABASE_URL'),
         conn_max_age=600
     )
 }
