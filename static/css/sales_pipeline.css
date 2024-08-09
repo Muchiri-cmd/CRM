@@ -1,6 +1,6 @@
 .container.pipeline {
     margin: 6em auto;
-    background: #fff;
+    background: linear-gradient(to left, #fff, #e0ddd5);
     padding: 20px;
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
@@ -17,10 +17,9 @@ h1 {
 }
 #search {
     padding: 10px;
-    width: 250px;
-    border-radius: 5px;
-    font-size:1em;
-    border: 1px solid #ddd;
+    width: 200px;
+    border-radius: 15px;
+    border: 5px solid #ddd;
 }
 .sales-pipeline-table {
     width: 100%;
@@ -29,7 +28,7 @@ h1 {
 }
 
 .sales-pipeline-table thead {
-    background: #2c3e50;
+    background: grey;
     color: #fff;
 }
 
