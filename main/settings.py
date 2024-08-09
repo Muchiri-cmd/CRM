@@ -29,7 +29,9 @@ SECRET_KEY = 'django-insecure-x9-71br7v-x34vfgundm*@tcczw&hhy=v9$7ut@rs3l^vg1ifu
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    'solarcrm.onrender.com',
+]
 
 
 # Application definition
