@@ -1,6 +1,6 @@
 .container.pipeline {
     margin: 6em auto;
-    background: #fff;
+    background: linear-gradient(to left, #fff, #e0ddd5);
     padding: 20px;
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
@@ -18,8 +18,8 @@ h1 {
 #search {
     padding: 10px;
     width: 200px;
-    border-radius: 5px;
-    border: 1px solid #ddd;
+    border-radius: 15px;
+    border: 5px solid #ddd;
 }
 .sales-pipeline-table {
     width: 100%;

@@ -1,9 +1,12 @@
+@import url('https://fonts.googleapis.com/css2?family=Raleway:wght@300&display=swap');
+
 body {
-    font-family: Arial, sans-serif;
+    font-family: 21px "Times New Roman";
     margin: 0;
     padding: 0;
     display: flex;
-    background-color: #f0f0f0;
+    background: linear-gradient(to right, #e0ddd5, #d1cdc4, #b8b5b0);
+
 }
 .main-content.dashboard {
     flex: 1;
@@ -21,7 +24,7 @@ body {
 }
 
 .card {
-    background-color: #fff;
+    background-color: #f5f3f0;
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     flex: 1;
@@ -49,11 +52,18 @@ body {
 }
 
 .stage {
-    background-color: #e8bfbf;
+    background: radial-gradient(circle, transparent, #cc770e);
     border-radius: 10px;
     padding: 20px;
     flex: 1;
+    transition: transform 0.3s ease;
+    overflow: auto;
 }
+
+.stage:hover {
+    transform: scale(1.15);
+}
+
 
 .stage h2 {
     font-size: 18px;
@@ -61,7 +71,8 @@ body {
 }
 
 .lead {
-    background-color: #fff;
+   background: radial-gradient(circle at left, #fff, #e0ddd5);
+    font-family: 'Raleway', sans-serif;
     padding: 10px;
     border-radius: 5px;
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
@@ -77,4 +88,21 @@ body {
 background: #e0e0e0;
 box-shadow:  18px 18px 36px #949494,
              -6px -6px 12px #ffffff;
+}
+
+@keyframes bounce {
+    0%, 20%, 50%, 80%, 100% {
+        transform: translateY(0);
+    }
+    40% {
+        transform: translateY(-20px);
+    }
+    60% {
+        transform: translateY(-10px);
+    }
+}
+
+.bounce {
+    
+    animation: bounce 10s infinite;
 }
