@@ -1,7 +1,8 @@
 .container.lead-form {
+  margin-left: 100px;
   margin:auto;
   padding: 20px;
-  background-color: #f9f9f9;
+  background: linear-gradient(beige, #fff, #e0ddd5);
   border-radius: 5px;
   text-align: center;
 }
@@ -28,7 +29,7 @@ select {
   box-sizing: border-box;
 }
 button[type="submit"] {
-  background-color: #007bff;
+  background-color: #e68b29;
   color: white;
   padding: 10px 20px;
   border: none;
@@ -38,7 +39,7 @@ button[type="submit"] {
 }
 
 button[type="submit"]:hover {
-  background-color: #0056b3;
+  background-color: #d9780f;
 }
 select {
   appearance: none;

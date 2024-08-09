@@ -7,6 +7,10 @@ body {
     align-items: center;
     height: 100vh;
     font-size: 24px;
+    background-image: url('/static/ofgenbg.png');
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
 
 }
 input{
@@ -17,7 +21,7 @@ input{
     height:600px;
     width: 100%;
     padding: 20px;
-    background-color: #ffffff;
+    background: linear-gradient(to right, #fff, #e0ddd5);
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
@@ -66,7 +70,7 @@ input{
 }
 
 .btn {
-    background-color: #007bff;
+    background-color: #e68b29;
     color: #ffffff;
     padding: 10px 20px;
     border: none;
@@ -76,7 +80,7 @@ input{
 }
 
 .btn:hover {
-    background-color: #0056b3;
+    background-color: #d9780f;
 }
 
 .d-grid {
@@ -93,7 +97,7 @@ input{
 }
 
 .submit-btn {
-    background-color: #007bff;
+    background-color: #e68b29;
     color: #ffffff;
     padding: 10px;
     border: none;
@@ -102,5 +106,5 @@ input{
     width: 100%;
 }
 .submit-btn:hover {
-    background-color: #0056b3;
+    background-color: #d9780f;
 }
