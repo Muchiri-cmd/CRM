@@ -7,5 +7,10 @@ pip install -r requirements.txt
 # Convert static asset files
 python manage.py collectstatic --no-input
 
+#Create superuser
+if [[ $CREATE_SUPERUSER ]];
+then
+  python3 manage.py createsuperuser --no-input
+fi
 # Apply any outstanding database migrations
 python manage.py migrate
