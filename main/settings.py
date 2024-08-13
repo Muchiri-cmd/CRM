@@ -31,6 +31,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = [
     'solarcrm.onrender.com',
+    '127.0.0.1',
 ]
 
 
