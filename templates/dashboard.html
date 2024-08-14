@@ -40,7 +40,7 @@
   </div>
   <div class="lead-stages">
       <div class="stage">
-          <h2>Due in a week</h2>
+          <h2><a href="{% url 'leads:due' %}">Due in a week</a></h2>
           {% for lead in leads_due_in_a_week %}
               <div class="lead">
                   <p>Company :{{lead.company}}</p>
@@ -50,7 +50,7 @@
           {% endfor %}
       </div>
       <div class="stage">
-          <h2>Site Surveys</h2>
+          <h2><a href="{% url 'leads:site_surveys' %}">Site Surveys</a></h2>
           {% for survey in site_surveys %}
               <div class="lead">
                   <p>Company:{{survey.company}}</p>
@@ -60,7 +60,9 @@
           {% endfor %}
       </div>
       <div class="stage">
-          <h2>Meetings</h2>
+          <h2>
+            <a href="{%url 'leads:meetings'%}">Meetings</a>
+          </h2>
           {% for meet in meeting %}
               <div class="lead">
                   <p>Company:{{meet.company}}</p>
@@ -70,7 +72,7 @@
           {% endfor %}
       </div>
       <div class="stage">
-          <h2>Proposals Created</h2>
+          <h2><a href="{% url 'leads:proposals' %}">Proposals</a></h2>
           {% for proposal in proposals %}
               <div class="lead">
                   <p>Company:{{proposal.company}}</p>
@@ -80,7 +82,7 @@
           {% endfor %}
       </div>
       <div class="stage">
-          <h2>Won</h2>
+          <h2><a href="{% url 'leads:won' %}">Won</a></h2>
           {% for project in won %}
           <div class="lead">
               <p>Company:{{project.company}}</p>

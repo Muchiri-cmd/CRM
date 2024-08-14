@@ -12,5 +12,7 @@ urlpatterns=[
     path('new_lead/',new_leads,name='new_leads'),
     path('site_surveys/',site_surveys,name='site_surveys'),
     path('proposals/',proposals,name='proposals'),
+    path('meetings/',meetings,name='meetings'),
+    path('due/',due_in_a_week,name='due'),
 
 ]

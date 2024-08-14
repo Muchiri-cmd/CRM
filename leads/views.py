@@ -9,6 +9,8 @@ from django.core.mail import send_mail
 import os 
 from dotenv import load_dotenv
 import threading
+from django.utils import timezone
+from datetime import timedelta
 
 
 def send_email_in_thread(subject, message, from_email, recepient_list):
@@ -258,3 +260,39 @@ def proposals(request):
     template = 'leads/staff-leads.html' if request.user.is_employee else 'leads/leads.html'
     return render(request, template, context)
     
+def meetings(request):
+    if request.user.is_employee:
+        leads = Leads.objects.filter(
+            (Q(owner=request.user) | Q(next_action_owner=request.user)) & Q(next_action='Meeting')
+        )
+    else:
+        leads = Leads.objects.filter(next_action='Meeting')
+
+    leads = filter_leads(request, leads)
+    page_object = paginate_leads(leads, request)
+    
+    context = {'leads': leads,'page_object': page_object}
+    template = 'leads/staff-leads.html' if request.user.is_employee else 'leads/leads.html'
+    return render(request, template, context)
+
+def due_in_a_week(request):
+    if request.user.is_employee:
+        leads = Leads.objects.filter(
+            (Q(owner=request.user) | Q(next_action_owner=request.user))
+        )
+    else:
+        leads = Leads.objects.all()
+
+    now = timezone.now()
+    one_week_from_now = now + timedelta(weeks=1)
+    due_in_next_week = leads.filter(
+        due_date__gte=now,
+        due_date__lte=one_week_from_now
+    )
+
+    leads = filter_leads(request, due_in_next_week)
+    page_object = paginate_leads(leads, request)
+
+    context = {'leads': leads,'page_object': page_object}
+    template = 'leads/staff-leads.html' if request.user.is_employee else 'leads/leads.html'
+    return render(request, template, context)
