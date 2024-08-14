@@ -11,7 +11,7 @@ from dotenv import load_dotenv
 import threading
 from django.utils import timezone
 from datetime import timedelta
-
+from datetime import datetime
 
 def send_email_in_thread(subject, message, from_email, recepient_list):
     send_mail(subject, message, from_email, recepient_list, fail_silently=False)
@@ -36,12 +36,50 @@ def filter_leads(request,leads):
 
     return leads
 
+def create_google_calendar_url(event_title, event_date, details, location):
+    base_url = "https://www.google.com/calendar/render?action=TEMPLATE"
+    url = f"{base_url}&text={event_title}&dates={event_date}/{event_date}&details={details}&location={location}"
+    return url
+
+def format_date_for_google_calendar(dt):
+    if isinstance(dt, str):
+        # Convert string to datetime object if necessary
+        dt = datetime.fromisoformat(dt) 
+    return dt.strftime('%Y%m%d')
+
+def send_calendar_invite(lead):
+     if lead.next_action == 'Meeting':
+            load_dotenv()
+            subject = "New Meeting Scheduled"
+            from_email = os.getenv('EMAIL_HOST_USER')
+            recipient_list = [lead.next_action_owner.email]
+            event_title = f"Meeting with {lead.company}"
+            
+            # Convert lead.next_action_scheduled_on to datetime if it's a string
+            scheduled_on = datetime.fromisoformat(lead.next_action_scheduled_on) if isinstance(lead.next_action_scheduled_on, str) else lead.next_action_scheduled_on
+            event_date = format_date_for_google_calendar(scheduled_on)
+            
+            details = ""
+            location = ""  
+
+            calendar_url = create_google_calendar_url(event_title, event_date, details, location)
+
+            message = (
+                f"Hi {lead.next_action_owner.username},\n\n"
+                f"A meeting has been scheduled for {lead.company} on {lead.next_action_scheduled_on}. "
+                f"Please add this meeting to your Google Calendar by clicking the link below:\n\n"
+                f"{calendar_url}\n\n"
+                f"Best regards,\nYour Team"
+            )
+
+            email_thread = threading.Thread(target=send_email_in_thread, args=(subject, message, from_email, recipient_list))
+            email_thread.start()
+
 def paginate_leads(leads, request):
     paginator_ref = Paginator(leads, 10)
     page_number = request.GET.get('page')
     page_object = paginator_ref.get_page(page_number)
     return page_object
-
 
     
 # Create your views here.
@@ -127,6 +165,9 @@ def create_lead(request):
             email_thread = threading.Thread(target=send_email_in_thread, args=(subject, message, from_email, recepient_list))
             email_thread.start()
 
+        if (next_action == 'Meeting'):
+           send_calendar_invite(new_lead)
+
         return redirect('leads:leads')
 
     users = User.objects.all()
@@ -161,6 +202,9 @@ def edit_lead(request, id):
         # Perform any necessary updates or assignments related to the owner
 
         lead.save()
+        send_calendar_invite(lead)
+       
+
         return redirect('leads:leads')
 
     users = User.objects.all()
