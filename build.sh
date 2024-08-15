@@ -8,9 +8,9 @@ pip install -r requirements.txt
 python manage.py collectstatic --no-input
 
 #Create superuser
-# if [[ "$CREATE_SUPERUSER" == "True" ]] || [[ "$CREATE_SUPERUSER" == "true" ]]; then
-#   python manage.py createsuperuser --no-input
-# fi
+if [[ "$CREATE_SUPERUSER" == "True" ]] || [[ "$CREATE_SUPERUSER" == "true" ]]; then
+  python manage.py createsuperuser --no-input
+fi
 
 # Apply any outstanding database migrations
 python manage.py migrate
