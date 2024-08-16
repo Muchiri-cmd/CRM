@@ -5,7 +5,7 @@ body {
     margin: 0;
     padding: 0;
     display: flex;
-    background: linear-gradient(to right, #e0ddd5, #d1cdc4, #b8b5b0);
+    background: #f5f3f0;
 
 }
 .main-content.dashboard {
@@ -55,7 +55,7 @@ body {
 }
 
 .stage {
-    background: radial-gradient(circle, transparent, #cc770e);
+     background: linear-gradient(to left, #e0ddd5, #d1cdc4, #b8b5b0);
     border-radius: 10px;
     padding: 20px;
     flex: 1;

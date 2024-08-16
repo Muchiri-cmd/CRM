@@ -4,8 +4,9 @@
     padding: 20px;
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    width:85%;
+    width:75%;
     margin-right:50px;
+    margin-left: 250px;
 }
 h1 {
     text-align: center;
