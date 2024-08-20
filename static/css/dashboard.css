@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Raleway:wght@300&display=swap');
 
 body {
-    font-family: 21px "Times New Roman";
+    font-family: Inter, sans-serif;
     margin: 0;
     padding: 0;
     display: flex;
@@ -36,7 +36,7 @@ body {
 .card-title {
     font-size: 18px;
     margin-bottom: 10px;
-    font-family: 21px "Times New Roman";
+    font-family: Inter, sans-serif;
     color: #e0ddd5;
 }
 
@@ -55,9 +55,11 @@ body {
 }
 
 .stage {
-     background: linear-gradient(to left, #e0ddd5, #d1cdc4, #b8b5b0);
+    background: linear-gradient(to bottom, #f5f3f0);
     border-radius: 10px;
     padding: 20px;
+    padding-left: 5px;
+    padding-right: 5px;
     flex: 1;
     transition: transform 0.3s ease;
     overflow: hidden;
