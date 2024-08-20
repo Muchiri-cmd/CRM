@@ -9,9 +9,14 @@
 
 {% block content%}
   <div class="container lead-form">
-    <h2 style="font-size: 24px; font-weight: bold; margin-bottom: 20px;">New Lead</h2>
+    <h2 style="font-size: 30px; font-weight: bold;
+    color: #5b64ec;  margin-bottom: 40px;">New Lead</h2>
     <form id="leadForm" method="POST" action="{% url 'leads:create_lead' %}">
       {% csrf_token %}
+
+     <h2>CLIENT DETAILS</h2>
+      <div class="card">
+        <br>
 
       <!--  Group Name -->
       <div class="form-group">
@@ -121,7 +126,11 @@
           <option value="Zimbabwe">Zimbabwe</option>
         </select>      
       </div>
-
+      <br>
+    </div>
+    <h2>PROJECT DETAILS</h2>
+    <div class="card">
+      <br>
       <!-- Project Type -->
       <div class="form-group">
         <label for="project_type">Project Type</label>
@@ -186,7 +195,11 @@
           <option value="Fresh">Fresh</option>
         </select>
       </div>
-      
+      <br>
+      </div>
+      <h2>PROJECT ACTION</h2>
+      <div class="card">
+        <br>
       {% comment %} <!-- Next Action -->
       <div class="form-group">
         <label for="nextAction">Next Action</label>
@@ -226,6 +239,8 @@
           {% endfor %}
         </select>
       </div>
+      <br>
+    </div>
 
       <!-- Submit Button -->
       <div class="form-group">
@@ -233,6 +248,5 @@
       </div>
     </form>
   </div>
-
 {% endblock %}
 
