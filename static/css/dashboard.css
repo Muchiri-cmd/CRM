@@ -58,7 +58,8 @@ body {
      background: linear-gradient(to left, #e0ddd5, #d1cdc4, #b8b5b0);
     border-radius: 10px;
     padding: 20px;
-
+    padding-left: 5px;
+    padding-right: 5px;
     flex: 1;
     transition: transform 0.3s ease;
     overflow: hidden;
@@ -76,7 +77,7 @@ body {
 
 .lead {
    background: radial-gradient(circle at left, #fff, #e0ddd5);
-    font-family: Inter, sans-serif;
+    font-family: 'Raleway', sans-serif;
     padding: 10px;
     border-radius: 5px;
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
