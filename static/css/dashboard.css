@@ -56,7 +56,7 @@ body {
 
 /*background: linear-gradient(to left, #e0ddd5, #d1cdc4, #b8b5b0)*/
 .stage {
-     background-color:background: linear-gradient(to bottom, #d1cdc4,);
+     background-color:background: linear-gradient(to bottom, #d1cdc4);
     border-radius: 10px;
     padding: 20px;
     flex: 1;
