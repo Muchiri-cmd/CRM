@@ -76,7 +76,7 @@ body {
 
     /*background: radial-gradient(circle at left, #fff, #e0ddd5);*/
 .lead {
-   background: linear-gradient(to left, #fff, #e0ddd5);
+   background-color: #fff;
     font-family: Inter, sans-serif;
     padding: 10px;
     border-radius: 5px;
