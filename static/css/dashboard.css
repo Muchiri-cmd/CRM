@@ -54,8 +54,9 @@ body {
     gap: 20px;
 }
 
+/*background: linear-gradient(to left, #e0ddd5, #d1cdc4, #b8b5b0)*/
 .stage {
-     background: linear-gradient(to left, #e0ddd5, #d1cdc4, #b8b5b0);
+     background-color: #e3ab6f;
     border-radius: 10px;
     padding: 20px;
     flex: 1;
@@ -73,8 +74,9 @@ body {
     margin-bottom: 50px;
 }
 
+    /*background: radial-gradient(circle at left, #fff, #e0ddd5);*/
 .lead {
-   background: radial-gradient(circle at left, #fff, #e0ddd5);
+   background: linear-gradient(to left, #fff, #e0ddd5);
     font-family: Inter, sans-serif;
     padding: 10px;
     border-radius: 5px;
