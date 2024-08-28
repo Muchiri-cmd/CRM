@@ -56,7 +56,7 @@ body {
 
 /*background: linear-gradient(to left, #e0ddd5, #d1cdc4, #b8b5b0)*/
 .stage {
-     background-color:background: linear-gradient(to left, #fff, #d1cdc4, );
+     background-color:background: linear-gradient(to bottom, #fff);
     border-radius: 10px;
     padding: 20px;
     flex: 1;
@@ -65,8 +65,8 @@ body {
 }
 
 a:-webkit-any-link {
-    color: #e3ab6f !important;
-    text-decoration: none !important;
+    color: #944300 !important;
+    text-decoration: blink; !important;
     cursor: pointer;
 }
 
