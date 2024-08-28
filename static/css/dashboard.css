@@ -56,13 +56,21 @@ body {
 
 /*background: linear-gradient(to left, #e0ddd5, #d1cdc4, #b8b5b0)*/
 .stage {
-     background-color:background: linear-gradient(to left, #e0ddd5, #d1cdc4, );
+     background-color:background: linear-gradient(to left, #fff, #d1cdc4, );
     border-radius: 10px;
     padding: 20px;
     flex: 1;
     transition: transform 0.3s ease;
     overflow: hidden;
 }
+
+a:-webkit-any-link {
+    color: #e3ab6f !important;
+    text-decoration: none !important;
+    cursor: pointer;
+}
+
+
 
 .stage:hover {
     transform: scale(1.15);
