@@ -85,7 +85,7 @@ a:-webkit-any-link {
 
     /*background: radial-gradient(circle at left, #fff, #e0ddd5);*/
 .lead {
-   background: radial-gradient(circle at left, #fff, #e0ddd5);
+   background: radial-gradient(at center, #fff, #e0ddd5);
     font-family: Inter, sans-serif;
     padding: 10px;
     border-radius: 5px;
