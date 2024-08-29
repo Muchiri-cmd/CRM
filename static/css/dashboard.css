@@ -57,6 +57,7 @@ body {
 /*background: linear-gradient(to left, #e0ddd5, #d1cdc4, #b8b5b0)*/
 .stage {
     background-color: #f5f3f0;
+    border: 3px solid #944300;
     border-radius: 10px;
     padding: 20px;
     flex: 1;
@@ -84,7 +85,7 @@ a:-webkit-any-link {
 
     /*background: radial-gradient(circle at left, #fff, #e0ddd5);*/
 .lead {
-   background-color: #fff;
+   background: radial-gradient(circle at left, #fff, #e0ddd5);
     font-family: Inter, sans-serif;
     padding: 10px;
     border-radius: 5px;
@@ -98,7 +99,6 @@ a:-webkit-any-link {
     margin: 5px 0;
 }
 .lead-stages {
-    border: 3px solid #944300;
     border-radius: 23px;
 background: #ffffff;
 box-shadow:  18px 18px 36px #949494,
