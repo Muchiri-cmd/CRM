@@ -1,6 +1,6 @@
 .container.pipeline {
     margin: 6em auto;
-    background: linear-gradient(to left, #fff, #e0ddd5);
+    background: linear-gradient(to right, #fff, #e0ddd5);
     padding: 20px;
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
@@ -30,7 +30,7 @@ h1 {
 }
 
 .sales-pipeline-table thead {
-    background: grey;
+    background-color: #944300;
     color: #fff;
 }
 
