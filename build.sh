@@ -11,6 +11,6 @@ python manage.py collectstatic --no-input
 python manage.py migrate
 
 #Create superuser
-# if [[ "$CREATE_SUPERUSER" == "True" ]] || [[ "$CREATE_SUPERUSER" == "true" ]]; then
-#   python manage.py createsuperuser --no-input
-# fi
+if [[ "$CREATE_SUPERUSER" == "True" ]] || [[ "$CREATE_SUPERUSER" == "true" ]]; then
+  python manage.py createsuperuser --no-input
+fi
