@@ -59,3 +59,50 @@
     clip-path: polygon(0 0, 10% 0, 50% 50%, 10% 100%, 0 100%);
     z-index: 0;
 }
+
+/* Responsive styles (for screens 768px and smaller) */
+@media screen and (max-width: 768px) {
+    .container.funnel {
+        width: 95%;
+        padding: 15px;
+        margin-right: 0;
+    }
+
+    #funnel {
+        flex-direction: column;
+        height: auto;
+        padding: 10px;
+    }
+
+    .funnel-stage {
+        margin-bottom: 10px;
+        border-right: none;
+        border-bottom: 1px solid #ddd;
+        padding: 8px;
+    }
+
+    .funnel-stage .count {
+        font-size: 20px;
+    }
+
+    .funnel-shape {
+        clip-path: none; /* Hide the funnel shape on smaller screens */
+        background: none;
+    }
+}
+
+/* Further adjustments (for screens 480px and smaller) */
+@media screen and (max-width: 480px) {
+    .container.funnel {
+        padding: 10px;
+    }
+
+    .funnel-stage {
+        padding: 5px;
+        font-size: 0.9em;
+    }
+
+    .funnel-stage .count {
+        font-size: 18px;
+    }
+}

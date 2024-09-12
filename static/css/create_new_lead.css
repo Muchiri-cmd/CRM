@@ -1,18 +1,26 @@
 .container.lead-form {
-  margin-left: 100px;
+  /*margin-left: 100px;*/
   margin:auto;
-  padding: 20px;
-  background: linear-gradient(beige, #fff, #e0ddd5);
+  padding: 25px;
+  background: linear-gradient(to white, #fff, #f5f3f0);
   border-radius: 5px;
   text-align: center;
 }
 .form-group {
-  margin-bottom: 15px;
+ /* margin-left: 200px;*/
+  margin-bottom: 20px;
+  font-size: 17px;
+  font-family: Inter, sans-serif;
+}
+.h2{
+font-family: Inter, sans-serif;
+;
 }
 label {
   display: block;
   font-weight: bold;
   margin-bottom: 5px;
+  color: #944300;
 }
 input[type="text"],
 input[type="email"],
@@ -21,7 +29,7 @@ input[type="number"],
 input[type="date"],
 textarea,
 select {
-  width: 70%;
+  width: 50%;
   padding: 10px;
   font-size: 1em;
   border: 1px solid #ccc;
@@ -46,3 +54,59 @@ select {
   padding: 10px;
 }
 
+.card{
+border-radius: 34px;
+background: #d6d3cd;
+box-shadow: inset 32px 32px 64px #b6b3ae,
+            inset -32px -32px 64px #f6f3ec;
+
+
+    width: 70%;
+    margin: 0 auto;
+}
+
+/* Responsive styles (for screens 768px and smaller) */
+@media screen and (max-width: 768px) {
+    .container.lead-form {
+        margin-left: 20px;
+        margin-right: 20px;
+        padding: 15px;
+    }
+
+    .form-group {
+        margin-left: 0;
+    }
+
+    input[type="text"],
+    input[type="email"],
+    input[type="tel"],
+    input[type="number"],
+    input[type="date"],
+    textarea,
+    select {
+        width: 100%;
+        padding: 8px;
+    }
+
+    .card {
+        width: 90%;
+    }
+}
+
+/* Further adjustments (for screens 480px and smaller) */
+@media screen and (max-width: 480px) {
+    .container.lead-form {
+        margin-left: 10px;
+        margin-right: 10px;
+        padding: 10px;
+    }
+
+    .card {
+        width: 100%;
+    }
+
+    button[type="submit"] {
+        width: 100%;
+        padding: 12px;
+    }
+}
